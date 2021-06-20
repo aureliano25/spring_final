@@ -1,0 +1,57 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{login_form.title}"/>
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,700'>
+    <link rel='stylesheet prefetch'
+          href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+<div class="wrapper">
+    <input type="checkbox" name="flipper__checkbox" id="flipper__checkbox" class="flipper__checkbox" hidden/>
+    <div class="form__container">
+        <!--- LOGIN FORM -->
+        <div class="form__login">
+            <h1 th:text="#{login_form.header}" class="form__header">Login</h1>
+            <form id="loginForm" action="/login" method="post" class="form">
+                <fieldset class="form__group">
+                    <label for="login"><span class="label__icon fa fa-at"></span></label>
+                    <input id="login" name="login" class="form__element" type="text"
+                           pattern="[A-Za-z0-9]{4,}"
+                           th:placeholder="#{login_form.login_field.placeholder}"
+                           required/>
+                </fieldset>
+                <fieldset class="form__group">
+                    <label for="password"><span class="label__icon fa fa-lock"></span></label>
+                    <input id="password" name="password" class="form__element" type="password"
+                           th:placeholder="#{login_form.password_field.placeholder}"
+                           required/>
+<!--                    <c:if test="${requestScope.login_error == true}">-->
+<!--                        <span class="form__error">Invalid login or password</span>-->
+<!--                    </c:if>-->
+                </fieldset>
+                <fieldset class="form__group">
+                    <input class="form__button"
+                           type="submit"
+                           th:value="#{login_form.submit_btn}"/>
+                </fieldset>
+                <small>
+                    <span th:text="#{login_form.bottom_text}">Not a member yet?</span>
+                    <a class="form__link" href="/signup" th:text="#{login_form.create_account}">
+                        Create account
+                    </a>
+                </small>
+                <small>
+                    <a class="language-switcher"
+                       th:text="#{login_form.second_language}"
+                       th:href="@{/login(lang=#{login_form.language_changer})}">Українська версія</a>
+                </small>
+            </form>
+        </div>
+        <!--- LOGIN FORM -->
+    </div>
+</div>
+</body>
+</html>
