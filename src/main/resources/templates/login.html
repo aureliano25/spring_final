@@ -7,6 +7,7 @@
     <link rel='stylesheet prefetch'
           href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css'>
     <link rel="stylesheet" href="/css/login.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
 <body>
 <div class="wrapper">
@@ -15,6 +16,12 @@
         <!--- LOGIN FORM -->
         <div class="form__login">
             <h1 th:text="#{login_form.header}" class="form__header">Login</h1>
+            <div th:if="${param.error}" class="alert alert-danger">
+                Invalid login or password
+            </div>
+            <div th:if="${param.logout}" class="alert alert-primary">
+                You have been logged out
+            </div>
             <form id="loginForm" action="/login" method="post" class="form">
                 <fieldset class="form__group">
                     <label for="login"><span class="label__icon fa fa-at"></span></label>
@@ -28,9 +35,6 @@
                     <input id="password" name="password" class="form__element" type="password"
                            th:placeholder="#{login_form.password_field.placeholder}"
                            required/>
-<!--                    <c:if test="${requestScope.login_error == true}">-->
-<!--                        <span class="form__error">Invalid login or password</span>-->
-<!--                    </c:if>-->
                 </fieldset>
                 <fieldset class="form__group">
                     <input class="form__button"
