@@ -1,4 +1,4 @@
-package com.pavliuk.spring.domain;
+package com.pavliuk.spring.entity;
 
 import lombok.Data;
 
