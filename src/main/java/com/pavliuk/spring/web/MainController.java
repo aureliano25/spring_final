@@ -1,6 +1,6 @@
 package com.pavliuk.spring.web;
 
-import com.pavliuk.spring.entity.User;
+import com.pavliuk.spring.model.User;
 import com.pavliuk.spring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

@@ -1,4 +1,4 @@
-package com.pavliuk.spring.entity;
+package com.pavliuk.spring.model;
 
 import lombok.Data;
 

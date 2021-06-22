@@ -1,6 +1,6 @@
 package com.pavliuk.spring.service;
 
-import com.pavliuk.spring.entity.User;
+import com.pavliuk.spring.model.User;
 import com.pavliuk.spring.model.CustomUserDetails;
 import com.pavliuk.spring.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

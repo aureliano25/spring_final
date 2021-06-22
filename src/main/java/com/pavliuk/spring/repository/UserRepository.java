@@ -1,6 +1,6 @@
 package com.pavliuk.spring.repository;
 
-import com.pavliuk.spring.entity.User;
+import com.pavliuk.spring.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

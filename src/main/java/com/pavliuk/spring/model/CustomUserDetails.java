@@ -2,7 +2,6 @@ package com.pavliuk.spring.model;
 
 import java.util.Collection;
 
-import com.pavliuk.spring.entity.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 

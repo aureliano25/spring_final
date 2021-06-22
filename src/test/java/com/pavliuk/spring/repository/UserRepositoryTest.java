@@ -1,6 +1,6 @@
 package com.pavliuk.spring.repository;
 
-import com.pavliuk.spring.entity.User;
+import com.pavliuk.spring.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
