@@ -1,0 +1,136 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head">
+    <meta charset="UTF-8">
+    <title th:include=":: #pageTitle">Layout Generic Title</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<header th:fragment="header">
+    <div class="main-layout">
+
+        <!--        <c:choose>-->
+
+<!--        This way we define the ADMIN MENU.-->
+        <!--            <c:when test="${sessionScope.user.admin}">-->
+        <div class="menu-item">
+            <a th:href="@{/admin/users}" th:text="#{header.users}"></a>
+        </div>
+        <div class="menu-item">
+            <a th:href="@{/}" th:text="#{header.tests}"></a>
+        </div>
+        <div class="menu-item">
+            <a th:href="@{/admin/subjects}" th:text="#{header.subjects}"></a>
+        </div>
+        <div class="menu-item">
+            <a th:href="@{/admin/test/create}">Create test</a>
+        </div>
+        <!--            </c:when>-->
+
+
+<!--        This way we define the USER MENU.-->
+
+        <!--            <c:otherwise>-->
+        <div class="menu-item">
+            <a th:href="@{/statistics}" th:text="#{header.statistics}"></a>
+        </div>
+        <div class="menu-item">
+            <a th:href="@{/}" th:text="#{header.tests}"></a>
+        </div>
+        <!--            </c:otherwise>-->
+        <!--        </c:choose>-->
+
+        <div class="empty-item"></div>
+        <div class="dropdown-menu">
+            <div class="dropdown-icon">
+                <i class="fas fa-globe"></i>
+            </div>
+            <div class="dropdown-caption" th:text="#{header.current_locale}">
+                ${#locale}
+                ${fn:toUpperCase(cookie.language.value)} <!-- TODO get current language value -->
+            </div>
+            <div class="dropdown-triangle">
+                <i class="fas fa-caret-down"></i>
+            </div>
+            <div class="language-selector dropdown-items">
+                <a class="dropdown-item" th:href="@{''(lang=en)}" th:text="#{header.lang_en}">EN</a>
+                <a class="dropdown-item" th:href="@{''(lang=ua)}" th:text="#{header.lang_ua}">UA</a>
+            </div>
+        </div>
+
+        <div class="dropdown-menu user-dropdown">
+            <div class="dropdown-icon">
+                <i class="far fa-user"></i>
+            </div>
+            <div class="dropdown-caption">${sessionScope.user.fullName}</div>
+            <div class="dropdown-triangle">
+                <i class="fas fa-caret-down"></i>
+            </div>
+            <div class="dropdown-items">
+                <a href="/profile" class="dropdown-item">
+                    <div class="dropdown-icon">
+                        <i class="far fa-user"></i>
+                    </div>
+                    <div class="dropdown-item-text" th:text="#{header.profile}"></div>
+                </a>
+                <a href="/logout" class="dropdown-item">
+                    <div class="dropdown-icon">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </div>
+                    <div class="dropdown-item-text" th:text="#{header.logout}"></div>
+                </a>
+            </div>
+        </div>
+    </div>
+</header>
+<footer th:fragment="footer">
+    <div class="popup-background"></div>
+    <div class="popup"></div>
+    <div class="noty"></div>
+    <script
+            src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+    <script>
+        $(() => {
+            let LANGUAGE_SELECTOR_CLASS = '.language-selector .dropdown-item';
+
+            $('.popup-background, .close-popup').on("click", closePopup);
+            $(LANGUAGE_SELECTOR_CLASS).on('click', function () {
+                document.cookie = "language=" + $(this).attr('data-language');
+                window.location.reload();
+            });
+
+            let language = '${cookie.language.value}';
+            $(LANGUAGE_SELECTOR_CLASS).each((i, item) => {
+                if ($(item).attr('data-language') === language) {
+                    $(item).addClass('disabled');
+                }
+            });
+        });
+
+
+        function openPopup(innerHtml) {
+            $('.popup').html(innerHtml);
+            $('body').addClass('popup-opened');
+        }
+
+        function closePopup() {
+            $('body').removeClass('popup-opened');
+        }
+
+        function printNoty(data) {
+            // $('.noty').html(data).slideToggle();
+            setTimeout(hideNotyAndReload, 1000);
+        }
+
+        function hideNotyAndReload() {
+            $('.noty').slideToggle();
+            window.location.reload();
+        }
+
+    </script>
+</footer>
+</body>
+</html>
