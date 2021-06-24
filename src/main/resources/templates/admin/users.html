@@ -1,0 +1,69 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout::head">
+    <meta charset="UTF-8">
+    <title id="pageTitle">Users</title>
+</head>
+<body>
+<header th:replace="layout::header"></header>
+<div class="wrapper">
+    <div class="table-container main-layout">
+        <table>
+            <tr>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Login</th>
+                <th>Role</th>
+                <th class="user-status__header">Status</th>
+                <th></th>
+            </tr>
+            <tr th:each="user:  ${users}" th:object="${user}">
+                <td th:text="*{firstName}"></td>
+                <td th:text="*{lastName}"></td>
+                <td th:text="*{login}"></td>
+                <td th:text="*{roleId}"></td>
+                <td>
+                    <div th:if="*{blocked}" class="user-status status-blocked">Blocked</div>
+                    <div th:unless="*{blocked}" class="user-status status-active">Active</div>
+                </td>
+                <td>
+                    <div class="action-buttons">
+                        <div th:if="*{blocked}"
+                             th:attr="data-id=*{id}"
+                             class="user-btn btn-unblock"
+                             title="Unblock user">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div th:unless="*{blocked}"
+                             th:attr="data-id=*{id}"
+                             class="user-btn btn-block"
+                             title="Block user">
+                            <i class="fas fa-minus-circle"></i>
+                        </div>
+
+
+                        <div class="user-btn btn-edit user-list"
+                             th:attr="data-id=*{id},
+                                data-login=*{login},
+                                data-firstname=*{firstName},
+                                data-lastname=*{lastName}"
+                             title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <div class="user-btn btn-delete"
+                             th:attr="data-id=*{id}"
+                             title="Delete">
+                            <i class="far fa-trash-alt"></i>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<footer th:replace="layout::footer"></footer>
+<script th:src="@{/js/user_list.js}"></script>
+</body>
+</html>

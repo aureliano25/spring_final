@@ -1,19 +1,17 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head th:fragment="head">
     <meta charset="UTF-8">
     <title th:include=":: #pageTitle">Layout Generic Title</title>
     <link rel="stylesheet" th:href="@{/css/main.css}">
+<!--    TODO change cdn to locale file-->
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 </head>
 <body>
 <header th:fragment="header">
     <div class="main-layout">
-
-        <!--        <c:choose>-->
-
-<!--        This way we define the ADMIN MENU.-->
-        <!--            <c:when test="${sessionScope.user.admin}">-->
+        <!--        This way we define the ADMIN MENU.-->
         <div class="menu-item">
             <a th:href="@{/admin/users}" th:text="#{header.users}"></a>
         </div>
@@ -26,12 +24,10 @@
         <div class="menu-item">
             <a th:href="@{/admin/test/create}">Create test</a>
         </div>
-        <!--            </c:when>-->
 
 
-<!--        This way we define the USER MENU.-->
+        <!--        This way we define the USER MENU.-->
 
-        <!--            <c:otherwise>-->
         <div class="menu-item">
             <a th:href="@{/statistics}" th:text="#{header.statistics}"></a>
         </div>
@@ -46,10 +42,7 @@
             <div class="dropdown-icon">
                 <i class="fas fa-globe"></i>
             </div>
-            <div class="dropdown-caption" th:text="#{header.current_locale}">
-                ${#locale}
-                ${fn:toUpperCase(cookie.language.value)} <!-- TODO get current language value -->
-            </div>
+            <div class="dropdown-caption" th:text="#{header.current_locale}"></div>
             <div class="dropdown-triangle">
                 <i class="fas fa-caret-down"></i>
             </div>
@@ -63,7 +56,7 @@
             <div class="dropdown-icon">
                 <i class="far fa-user"></i>
             </div>
-            <div class="dropdown-caption">${sessionScope.user.fullName}</div>
+            <div class="dropdown-caption" sec:authentication="name">${sessionScope.user.fullName}</div>
             <div class="dropdown-triangle">
                 <i class="fas fa-caret-down"></i>
             </div>
