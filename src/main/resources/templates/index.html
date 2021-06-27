@@ -20,8 +20,8 @@
                 <label class="checkbox-label">
                     <input type="checkbox"
                            class="filter-checkbox"
-                           th:attr="data-id=${subject.id}">
-                    <!--                               ${subjectFilter.contains(subject.id) ? "checked" : ""} >-->
+                           th:attr="data-id=${subject.id}"
+                           th:checked="${#lists.contains(selectedSubjects, subject.id)}">
                     <span th:text="${subject.name}" class="filter-text"></span>
                 </label>
             </div>
@@ -41,22 +41,25 @@
                     <i class="fas fa-caret-down"></i>
                 </div>
             </div>
-
-            <!--            TODO refactor-->
-            <!--            <ul>-->
-            <!--                <li class="sort-item-->
-            <!--                    ${empty param.sort || param.sort eq "title" ? "sort-item-current" : ""}"-->
-            <!--                data-sort="title">-->
-            <!--                <fmt:message key="sort_options.title" />-->
-            <!--                </li>-->
-            <!--                <li class="sort-item ${param.sort == "difficulty" ? "sort-item-current" : ""}"-->
-            <!--                data-sort="difficulty">-->
-            <!--                <fmt:message key="sort_options.difficulty" />-->
-            <!--                </li>-->
-            <!--            </ul>-->
+            <ul>
+                <li class="sort-item"
+                    th:text="#{sort_options.title}"
+                    th:classappend="${
+                        #strings.isEmpty(param.sort) || #strings.equals(param.sort, 'title')
+                            ? 'sort-item-current'
+                            : ''
+                    }"
+                    data-sort="title">
+                </li>
+                <li class="sort-item"
+                    th:text="#{sort_options.difficulty}"
+                    th:classappend="${#strings.equals(param.sort, 'difficulty') ? 'sort-item-current' : ''}"
+                    data-sort="difficulty">
+                </li>
+            </ul>
         </div>
         <div class="quiz-container">
-            <div th:each="test: ${tests}" th:object="${test}" class="quiz-card">
+            <div th:each="test: ${testsPage.toList()}" th:object="${test}" class="quiz-card">
                 <div class="quiz-title">
                     <a th:text="*{title}" href="#" class="quiz-link"></a>
                 </div>
@@ -86,60 +89,69 @@
                 </div>
             </div>
         </div>
-        <ul class="pagination">
-            <li th:if="${pagination.previousPageExists}" class="page-item">
+        <ul th:if="${testsPage.totalPages > 0}" class="pagination">
+            <li th:classappend="${testsPage.hasPrevious() ? '' : 'disabled'}"
+                class="page-item">
                 <span class="page-link"
-                      th:attr="data-page=${pagination.previous}"
-                      th:text="${pagination.previous}">
+                      th:attr="data-page=${testsPage.previousOrFirstPageable().pageNumber + 1}"
+                      th:text="#{pagination.previous}">
                 </span>
             </li>
-            <li th:if="${pagination.previousPageExists}" class="page-item">
+            <li th:if="${testsPage.number > 1}" class="page-item">
+                <a class="page-link" data-page="1">1</a>
+            </li>
+
+            <li th:if="${testsPage.number > 2}" class="page-item">
                 <span class="page-link"
-                      th:attr="data-page=${pagination.previous}"
-                      th:text="${pagination.previous}">
+                      th:attr="data-page=${testsPage.number - 1}">
+                    ...
                 </span>
             </li>
 
-            <li th:unless="${pagination.previousPageExists}"
-                class="page-item disabled">
-                <a class="page-link"
-                   th:text="#{pagination.previous}"
-                   href="#"></a>
+            <li th:if="${testsPage.hasPrevious()}" class="page-item">
+                <span class="page-link"
+                      th:attr="data-page=${testsPage.number}"
+                      th:text="${testsPage.number}">
+                </span>
             </li>
 
             <li class="page-item active">
-                <span th:text="${pagination.currentPage}" class="page-link"></span>
+                    <span class="page-link"
+                          th:attr="data-page=${testsPage.number + 1}"
+                          th:text="${testsPage.number + 1}"></span>
             </li>
-            <li class="page-item">
-                <span th:text="${pagination.next}"
-                      th:attr="data-page=${pagination.next}"
-                      class="page-link">
-                </span>
+
+            <li th:if="${testsPage.hasNext()}" class="page-item">
+                    <span class="page-link"
+                          th:attr="data-page=${testsPage.number + 2}"
+                          th:text="${testsPage.number + 2}"></span>
             </li>
-            <li class="page-item">
-                <span th:text="${pagination.next}"
-                      th:attr="data-page=${pagination.next}"
-                      class="page-link">
-                </span>
+
+            <li th:if="${testsPage.totalPages > testsPage.number + 3}" class="page-item">
+                    <span class="page-link"
+                          th:attr="data-page=${testsPage.number + 3}">
+                        ...
+                    </span>
+            </li>
+
+            <li th:if="${testsPage.number < testsPage.totalPages - 2}" class="page-item">
+                    <span class="page-link"
+                          th:attr="data-page=${testsPage.totalPages}"
+                          th:text="${testsPage.totalPages}">
+                    </span>
+            </li>
+
+            <li th:classappend="${testsPage.hasNext() ? '' : 'disabled'}"
+                class="page-item">
+                    <span class="page-link"
+                          th:attr="data-page=${testsPage.number + 2}"
+                          th:text="#{pagination.next}">
+                    </span>
             </li>
         </ul>
     </div>
 </div>
 <footer th:replace="layout::footer"></footer>
-<!--<script src="/static/js/main.js"></script>-->
-<!--<script>-->
-<!--    $(() => {-->
-<!--        $('.select-sort').on('click', function () {-->
-<!--            $(this).toggleClass('opened');-->
-<!--        })-->
-
-<!--        $('.sort-item').on('click', function () {-->
-<!--            removePageFromUrl();-->
-<!--            updateUrlParameter('sort', $(this).data('sort'));-->
-<!--        });-->
-
-<!--        $('.sort_name').text($('.sort-item-current').text());-->
-<!--    })-->
-<!--</script>-->
+<script th:src="@{/js/main.js}"></script>
 </body>
 </html>
