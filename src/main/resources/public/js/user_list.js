@@ -129,11 +129,7 @@ function deleteUser(id) {
 }
 
 function unblockUser(id) {
-    $.ajax("/admin/unblock-user", {
-        data: {
-            id: id,
-        },
-    }).then(
+    $.ajax("/admin/unblock-user/" + id).then(
         (data) => {
             window.location.reload();
         },
@@ -145,11 +141,7 @@ function unblockUser(id) {
 }
 
 function blockUser(id) {
-    $.ajax("/admin/block-user", {
-        data: {
-            id: id,
-        }
-    }).then(
+    $.ajax("/admin/block-user/" + id).then(
         (data) => {
             window.location.reload();
         },

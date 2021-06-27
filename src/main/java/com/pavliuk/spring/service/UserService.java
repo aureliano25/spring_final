@@ -22,4 +22,16 @@ public class UserService implements UserDetailsService {
 
         return new CustomUserDetails(user);
     }
+
+    public boolean blockUser(Long userId) {
+        int updatedRows = userRepository.blockUserById(userId);
+
+        return updatedRows != 0;
+    }
+
+    public boolean unblockUser(Long userId) {
+        int updatedRows = userRepository.unblockUserById(userId);
+
+        return updatedRows != 0;
+    }
 }
