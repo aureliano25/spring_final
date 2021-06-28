@@ -1,23 +1,26 @@
 package com.pavliuk.spring.web;
 
+import com.pavliuk.spring.dto.SignUpFormDto;
+import com.pavliuk.spring.exception.UserAlreadyExistsException;
 import com.pavliuk.spring.model.Subject;
 import com.pavliuk.spring.model.TestEntity;
 import com.pavliuk.spring.model.User;
 import com.pavliuk.spring.repository.SubjectRepository;
 import com.pavliuk.spring.repository.TestRepository;
 import com.pavliuk.spring.repository.UserRepository;
+import com.pavliuk.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +29,9 @@ import java.util.Optional;
 public class MainController {
     private static final int DEFAULT_TEST_PER_PAGE = 6;
     private static final int DEFAULT_PAGE = 1;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
@@ -62,20 +68,22 @@ public class MainController {
     }
 
     @GetMapping("/signup")
-    public String getRegistrationForm(Model model) {
-        model.addAttribute("user", new User());
-
+    public String getRegistrationForm(@ModelAttribute("signUpForm") SignUpFormDto signUpForm) {
         return "signup";
     }
 
-    @PostMapping("/process_register")
-    public String processRegister(User user) {
-        //TODO write a dto with Bean Validation 2.0(https://www.baeldung.com/javax-validation)
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-        user.setRoleId((long) 2);
-        userRepository.save(user);
+    @PostMapping("/signup")
+    public String processRegister(@ModelAttribute("signUpForm") @Valid SignUpFormDto signUpForm, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "signup";
+        }
+
+        try {
+            userService.registerNewUserAccount(signUpForm);
+        } catch (UserAlreadyExistsException e) {
+            bindingResult.rejectValue("login", "javax.validation.constraints.login.alreadyExists.message");
+            return "signup";
+        }
 
         return "register_success";
     }

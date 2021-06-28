@@ -1,5 +1,7 @@
 package com.pavliuk.spring.service;
 
+import com.pavliuk.spring.dto.SignUpFormDto;
+import com.pavliuk.spring.exception.UserAlreadyExistsException;
 import com.pavliuk.spring.model.User;
 import com.pavliuk.spring.model.CustomUserDetails;
 import com.pavliuk.spring.repository.UserRepository;
@@ -7,12 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -33,5 +39,20 @@ public class UserService implements UserDetailsService {
         int updatedRows = userRepository.unblockUserById(userId);
 
         return updatedRows != 0;
+    }
+
+    public User registerNewUserAccount(SignUpFormDto signUpForm) throws UserAlreadyExistsException {
+        User user = new User();
+        user.setFirstName(signUpForm.getFirstName());
+        user.setLastName(signUpForm.getLastName());
+        user.setLogin(signUpForm.getLogin());
+        user.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
+        user.setRoleId((long)2);
+
+        try {
+            return userRepository.save(user);
+        } catch (RuntimeException e) {
+            throw new UserAlreadyExistsException("User with login " + user.getLogin() + " already exists");
+        }
     }
 }

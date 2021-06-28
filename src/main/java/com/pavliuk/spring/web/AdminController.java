@@ -3,12 +3,10 @@ package com.pavliuk.spring.web;
 import com.pavliuk.spring.dto.response.Response;
 import com.pavliuk.spring.repository.UserRepository;
 import com.pavliuk.spring.service.UserService;
-import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
