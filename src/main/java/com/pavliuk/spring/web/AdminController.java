@@ -1,5 +1,6 @@
 package com.pavliuk.spring.web;
 
+import com.pavliuk.spring.dto.SubjectDto;
 import com.pavliuk.spring.dto.UserDto;
 import com.pavliuk.spring.dto.response.Response;
 import com.pavliuk.spring.repository.SubjectRepository;
@@ -90,5 +91,22 @@ public class AdminController {
         }
 
         return Response.ok().setMessage("Subject was successfully deleted");
+    }
+
+
+    @RequestMapping("/subject/update")
+    @ResponseBody
+    public Response updateSubject(@Valid SubjectDto subjectDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return Response.badRequest().setErrors(bindingResult.getAllErrors());
+        }
+
+        try {
+            subjectService.updateSubject(subjectDto);
+        } catch (Exception e) {
+            return Response.badRequest().setMessage("Something went wrong");
+        }
+
+        return Response.ok().setMessage("Subject was successfully updated");
     }
 }

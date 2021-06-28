@@ -26,6 +26,8 @@ $(() => {
     $('.sort_name').text($('.sort-item-current').text());
 });
 
+const CSRF_FIELD_SELECTOR = "#_csrf";
+
 function removeFromUrl(parameterName, valueToRemove) {
     let values = getValuesListFromUrl(parameterName);
     let index = values.indexOf(valueToRemove);
@@ -68,4 +70,11 @@ function removePageFromUrl() {
     let url = new URL(window.location.href);
     url.searchParams.delete("page");
     window.history.pushState('', '', url.toString());
+}
+
+function getCsrfInput() {
+    let tokenFieldName = $(CSRF_FIELD_SELECTOR).attr("name");
+    let tokenValue = $(CSRF_FIELD_SELECTOR).attr("content");
+
+    return `<input type="hidden" name="${tokenFieldName}" value="${tokenValue}" />`;
 }

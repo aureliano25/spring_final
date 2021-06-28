@@ -44,6 +44,7 @@ function openSubjectCreationForm(name, id) {
                                required/>
                     </fieldset>
                     <input type="hidden" name="id" value="${id}">
+                    ${getCsrfInput()}
                     <button class="form__button save-subject">Save</button>
                 </form>`;
 

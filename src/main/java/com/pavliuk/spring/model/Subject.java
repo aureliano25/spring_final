@@ -1,5 +1,6 @@
 package com.pavliuk.spring.model;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.Column;

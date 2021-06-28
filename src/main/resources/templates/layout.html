@@ -7,6 +7,11 @@
     <link rel="stylesheet" th:href="@{/css/main.css}">
 <!--    TODO change cdn to locale file-->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <meta
+            type="hidden"
+            id="_csrf"
+            th:name="${_csrf.parameterName}"
+            th:content="${_csrf.token}" />
 </head>
 <body>
 <header th:fragment="header">

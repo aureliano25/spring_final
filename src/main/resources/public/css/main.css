@@ -452,6 +452,7 @@ td, th {
     transform: translate(-50%, -50%);
     background: white;
     padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .popup-opened {
