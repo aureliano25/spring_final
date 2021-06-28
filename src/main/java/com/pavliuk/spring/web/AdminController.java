@@ -2,6 +2,7 @@ package com.pavliuk.spring.web;
 
 import com.pavliuk.spring.dto.UserDto;
 import com.pavliuk.spring.dto.response.Response;
+import com.pavliuk.spring.repository.SubjectRepository;
 import com.pavliuk.spring.repository.UserRepository;
 import com.pavliuk.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,20 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private SubjectRepository subjectRepository;
+
     @RequestMapping("/users")
     public String getUsersView(Model model) {
         model.addAttribute("users", userRepository.findAll());
 
         return "admin/users.html";
+    }
+
+    @RequestMapping("/subjects")
+    public String getSubjectsView(Model model) {
+        model.addAttribute("subjects", subjectRepository.findAll());
+        return "/admin/subjects.html";
     }
 
     @RequestMapping("/block-user/{userId}")

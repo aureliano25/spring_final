@@ -2,6 +2,7 @@ package com.pavliuk.spring.model;
 
 import lombok.Data;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,5 +13,7 @@ import javax.persistence.Table;
 public class Subject {
     @Id
     private Long id;
+
+    @Column(unique = true)
     private String name;
 }

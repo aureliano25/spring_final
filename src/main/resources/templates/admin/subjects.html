@@ -1,0 +1,45 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout::head">
+    <meta charset="UTF-8">
+    <title id="pageTitle">Subjects</title>
+</head>
+<body>
+<header th:replace="layout::header"></header>
+<div class="wrapper">
+    <div class="main-layout container-stretch">
+        <div class="info-block collapsed">
+            <div class="info-title">
+                <i class="icon-arrow"></i>
+                <span>Subjects</span>
+            </div>
+            <div class="info-content">
+                <div th:each="subject : ${subjects}"
+                     th:object="${subject}"
+                     th:attr="data-id=*{id}"
+                     class="question">
+                    <p class="question-text" th:text="*{name}"></p>
+                    <div class="empty-item"></div>
+                    <div class="user-btn btn-delete subject-delete"
+                         th:attr="data-id=*{id}">
+                        <i class="fas fa-trash"></i>
+                        <span>Delete</span>
+                    </div>
+                    <div class="user-btn btn-edit subject-edit"
+                         th:attr="data-name=*{name}, data-id=*{id}">
+                        <i class="fas fa-edit"></i>
+                        <span>Edit</span>
+                    </div>
+                </div>
+                <div class="btn-wrapper">
+                    <div class="form__button create-subject">Add subject</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="layout::footer"></footer>
+<script th:src="@{/js/subject_list.js}"></script>
+</body>
+</html>
