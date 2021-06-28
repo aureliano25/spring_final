@@ -4,7 +4,6 @@ import com.pavliuk.spring.dto.SignUpFormDto;
 import com.pavliuk.spring.exception.UserAlreadyExistsException;
 import com.pavliuk.spring.model.Subject;
 import com.pavliuk.spring.model.TestEntity;
-import com.pavliuk.spring.model.User;
 import com.pavliuk.spring.repository.SubjectRepository;
 import com.pavliuk.spring.repository.TestRepository;
 import com.pavliuk.spring.repository.UserRepository;
@@ -16,8 +15,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -44,7 +41,7 @@ public class MainController {
 
     @RequestMapping("/")
     public String getMainPage(
-            @PageableDefault(value = DEFAULT_TEST_PER_PAGE, page = DEFAULT_PAGE) Pageable pageable,
+            @PageableDefault(value = DEFAULT_TEST_PER_PAGE) Pageable pageable,
             @RequestParam(name = "subjects") Optional<List<Long>> selectedSubjects,
             Model model
     ) {

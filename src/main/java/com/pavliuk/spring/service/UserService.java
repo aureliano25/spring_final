@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.HtmlUtils;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -43,9 +44,9 @@ public class UserService implements UserDetailsService {
 
     public User registerNewUserAccount(SignUpFormDto signUpForm) throws UserAlreadyExistsException {
         User user = new User();
-        user.setFirstName(signUpForm.getFirstName());
-        user.setLastName(signUpForm.getLastName());
-        user.setLogin(signUpForm.getLogin());
+        user.setFirstName(HtmlUtils.htmlEscape(signUpForm.getFirstName()));
+        user.setLastName(HtmlUtils.htmlEscape(signUpForm.getLastName()));
+        user.setLogin(HtmlUtils.htmlEscape(signUpForm.getLogin()));
         user.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
         user.setRoleId((long)2);
 
