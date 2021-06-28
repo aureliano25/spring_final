@@ -114,11 +114,7 @@ function openEditPopup(id, login, firstName, lastName) {
 // }
 
 function deleteUser(id) {
-    $.ajax("/admin/delete-user", {
-        data: {
-            id: id,
-        },
-    }).then(
+    $.ajax("/admin/delete-user/" + id).then(
         (data) => {
             window.location.reload();
         },

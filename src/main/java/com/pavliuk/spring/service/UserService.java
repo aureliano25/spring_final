@@ -42,6 +42,10 @@ public class UserService implements UserDetailsService {
         return updatedRows != 0;
     }
 
+    public void deleteUser(Long userId) {
+        userRepository.deleteById(userId);
+    }
+
     public User registerNewUserAccount(SignUpFormDto signUpForm) throws UserAlreadyExistsException {
         User user = new User();
         user.setFirstName(HtmlUtils.htmlEscape(signUpForm.getFirstName()));

@@ -1,14 +1,19 @@
 package com.pavliuk.spring.web;
 
+import com.pavliuk.spring.dto.UserDto;
 import com.pavliuk.spring.dto.response.Response;
 import com.pavliuk.spring.repository.UserRepository;
 import com.pavliuk.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/admin")
@@ -42,4 +47,22 @@ public class AdminController {
                 : Response.badRequest().setMessage("Something went wrong");
     }
 
+    @RequestMapping("/delete-user/{userId}")
+    @ResponseBody
+    public Response deleteUser(@PathVariable Long userId) {
+        try {
+            userService.deleteUser(userId);
+        } catch (Exception e) {
+            return Response.badRequest().setMessage("Something went wrong");
+        }
+
+        return Response.ok().setMessage("User was successfully deleted");
+    }
+
+
+    @ResponseBody
+    @PostMapping("/update-user")
+    public Response updateUser(@Valid UserDto userDto, BindingResult bindingResult) {
+        return Response.ok().setMessage("ok");
+    }
 }
