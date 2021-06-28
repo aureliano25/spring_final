@@ -8,9 +8,7 @@ $(() => {
     })
 
     $('.subject-delete').on('click', function () {
-        $.post("/admin/subject/delete", {
-            id: $(this).data('id'),
-        }).then(
+        $.get("/admin/subject/delete/" + $(this).data('id')).then(
             (data) => printNoty(data),
             (data) => printNoty(data),
         );
@@ -42,10 +40,10 @@ function openSubjectCreationForm(name, id) {
                                name="name"
                                class="form__element element_without_image"
                                type="text"
-                               value="\${name}"
+                               value="${name}"
                                required/>
                     </fieldset>
-                    <input type="hidden" name="id" value="\${id}">
+                    <input type="hidden" name="id" value="${id}">
                     <button class="form__button save-subject">Save</button>
                 </form>`;
 

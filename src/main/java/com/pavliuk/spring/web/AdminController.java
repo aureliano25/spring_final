@@ -4,6 +4,7 @@ import com.pavliuk.spring.dto.UserDto;
 import com.pavliuk.spring.dto.response.Response;
 import com.pavliuk.spring.repository.SubjectRepository;
 import com.pavliuk.spring.repository.UserRepository;
+import com.pavliuk.spring.service.SubjectService;
 import com.pavliuk.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SubjectService subjectService;
 
     @Autowired
     private SubjectRepository subjectRepository;
@@ -74,5 +78,17 @@ public class AdminController {
     @PostMapping("/update-user")
     public Response updateUser(@Valid UserDto userDto, BindingResult bindingResult) {
         return Response.ok().setMessage("ok");
+    }
+
+    @RequestMapping("/subject/delete/{subjectId}")
+    @ResponseBody
+    public Response deleteSubject(@PathVariable Long subjectId) {
+        try {
+            subjectService.deleteSubject(subjectId);
+        } catch (Exception e) {
+            return Response.badRequest().setMessage("Something went wrong");
+        }
+
+        return Response.ok().setMessage("Subject was successfully deleted");
     }
 }
