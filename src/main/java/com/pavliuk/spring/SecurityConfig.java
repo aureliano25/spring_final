@@ -14,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private static final int MAX_SESSION = 1;
+
     @Autowired
     private UserService userService;
 
@@ -26,16 +28,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers("/admin/*").hasRole("ADMIN")
+                .antMatchers("/admin/*").hasRole("ADMIN")
                 .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/js/*", "/css/*").permitAll()
                 .antMatchers("/process_register*").permitAll()
                 .antMatchers("/login*", "/signup*").permitAll()
-//                .anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").permitAll()
                 .and()
-                .logout();
+                .logout().permitAll()
+                .and()
+                .sessionManagement().maximumSessions(MAX_SESSION).maxSessionsPreventsLogin(true)
+                .expiredUrl("/login?expired");
     }
 
     @Bean

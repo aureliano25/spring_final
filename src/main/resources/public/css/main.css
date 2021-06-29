@@ -959,3 +959,11 @@ td, th {
     float: none;
     margin-left: 0;
 }
+
+#submitBtn {
+    display: none;
+}
+
+label[for="submitBtn"] {
+    cursor: pointer;
+}

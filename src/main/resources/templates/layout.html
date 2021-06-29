@@ -76,7 +76,13 @@
                     <div class="dropdown-icon">
                         <i class="fas fa-sign-out-alt"></i>
                     </div>
-                    <div class="dropdown-item-text" th:text="#{header.logout}"></div>
+                    <form th:action="@{/logout}" method="POST">
+                        <input type="hidden"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}"/>
+                        <label for="submitBtn" class="dropdown-item-text" th:text="#{header.logout}"></label>
+                        <input type="submit" id="submitBtn">
+                    </form>
                 </a>
             </div>
         </div>
