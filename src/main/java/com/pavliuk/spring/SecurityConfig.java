@@ -1,5 +1,6 @@
 package com.pavliuk.spring;
 
+import com.pavliuk.spring.model.UserRole;
 import com.pavliuk.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/admin/*").hasRole("ADMIN")
+                //.antMatchers("/admin/*")//.hasRole(UserRole.ADMIN.toString())
                 .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/js/*", "/css/*").permitAll()
                 .antMatchers("/process_register*").permitAll()

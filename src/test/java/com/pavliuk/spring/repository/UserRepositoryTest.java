@@ -27,7 +27,7 @@ class UserRepositoryTest {
         user.setPassword("petro");
         user.setFirstName("petro");
         user.setLastName("petro");
-        user.setRoleId((long)2);
+//        user.setRoleId((long)2);
 
         User savedUser = userRepository.save(user);
         User userFromDb = entityManager.find(User.class, savedUser.getId());

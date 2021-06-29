@@ -52,7 +52,7 @@ public class UserService implements UserDetailsService {
         user.setLastName(HtmlUtils.htmlEscape(signUpForm.getLastName()));
         user.setLogin(HtmlUtils.htmlEscape(signUpForm.getLogin()));
         user.setPassword(passwordEncoder.encode(signUpForm.getPassword()));
-        user.setRoleId((long)2);
+//        user.setRoleId((long)2);
 
         try {
             return userRepository.save(user);
