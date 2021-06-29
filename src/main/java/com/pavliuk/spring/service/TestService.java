@@ -14,8 +14,11 @@ public class TestService {
     @Autowired
     private TestRepository testRepository;
 
+    @Autowired
+    private TestMapper testMapper;
+
     public TestEntity createTest(TestDto testDto) throws SubjectNotFoundException {
-        return testRepository.save(TestMapper.createTestFromDto(testDto));
+        return testRepository.save(testMapper.createTestFromDto(testDto));
     }
 
     public TestEntity findTest(Long testId) throws TestNotFoundException {

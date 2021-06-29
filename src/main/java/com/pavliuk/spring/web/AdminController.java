@@ -142,7 +142,7 @@ public class AdminController {
 
         try {
             TestEntity testEntity = testService.createTest(testDto);
-            return "redirect:/admin/test/update/" + testEntity.getId();
+            return "redirect:/admin/test/edit/" + testEntity.getId();
         } catch (SubjectNotFoundException e) {
             bindingResult.rejectValue("subject", "javax.validation.constraints.login.alreadyExists.message");
             return "/admin/create_test.html";

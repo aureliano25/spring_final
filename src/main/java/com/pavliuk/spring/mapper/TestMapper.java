@@ -6,12 +6,14 @@ import com.pavliuk.spring.model.Subject;
 import com.pavliuk.spring.model.TestEntity;
 import com.pavliuk.spring.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class TestMapper {
     @Autowired
-    public static SubjectRepository subjectRepository;
+    public SubjectRepository subjectRepository;
 
-    public static TestEntity createTestFromDto(TestDto testDto) throws SubjectNotFoundException {
+    public TestEntity createTestFromDto(TestDto testDto) throws SubjectNotFoundException {
         Subject subject = subjectRepository.findById(testDto.getSubject())
                 .orElseThrow(SubjectNotFoundException::new);
 
