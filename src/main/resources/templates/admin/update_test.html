@@ -1,0 +1,95 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout::head">
+    <meta charset="UTF-8">
+    <title id="pageTitle">Subjects</title>
+</head>
+<body>
+<header th:replace="layout::header"></header>
+<div class="wrapper" th:object="${test}">
+    <div class="main-layout container-stretch">
+        <div class="info-block">
+            <div class="info-title">
+                <i class="icon-arrow"></i>
+                <span>Quiz settings</span>
+            </div>
+            <input type="hidden"
+                   id="quiz_id"
+                   name="id"
+                   th:value="*{id}" />
+            <div class="info-content">
+                <div class="quiz_setting">
+                    <span class="setting_title">Title:* </span>
+                    <input type="text"
+                           id="quiz_title"
+                           name="title"
+                           th:value="*{title}" />
+                </div>
+                <div class="quiz_setting">
+                    <span class="setting_title">Subject: </span>
+                    <select class="selector"
+                            th:field="*{subject.id}"
+                            name="subject"
+                            id="quiz_subject">
+                        <option th:each="subject : ${subjects}"
+                                th:value="${subject.id}"
+                                th:text="${subject.name}"></option>
+                    </select>
+                </div>
+                <div class="quiz_setting">
+                    <span class="setting_title">Difficulty: </span>
+                    <select class="selector"
+                            th:field="*{difficulty}"
+                            name="difficulty"
+                            id="quiz_difficulty">
+                        <option th:each="difficulty : ${difficulties}"
+                                th:value="${difficulty}"
+                                th:text="${difficulty}"></option>
+                    </select>
+                </div>
+                <div class="quiz_setting">
+                    <span class="setting_title">
+                        Time limit (in minutes)*
+                    </span>
+                    <input type="number"
+                           id="quiz_time"
+                           name="time"
+                           th:value="*{timer}" />
+                </div>
+                <div class="btn-wrapper">
+                    <button class="form__button settings-save btn-bordered">Save</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="info-block collapsed">
+            <div class="info-title">
+                <i class="icon-arrow"></i>
+                <span>Questions</span>
+            </div>
+            <div class="info-content">
+                <div th:each="question : *{questions}" class="question" th:data-id="${question.id}">
+                    <p class="question-text" th:text="${question.text}"></p>
+                    <div class="empty-item"></div>
+                    <div class="user-btn question-delete" th:data-id="${question.id}">
+                        <i class="fas fa-trash"></i>
+                        <span>Delete</span>
+                    </div>
+                    <div class="user-btn question-edit" th:data-id="${question.id}">
+                        <i class="fas fa-edit"></i>
+                        <span>Edit</span>
+                    </div>
+                </div>
+                <div class="btn-wrapper">
+                    <div class="form__button create-question">Add Question</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="layout::footer"></footer>
+<script th:src="@{/js/main.js}"></script>
+<script th:src="@{/js/edit_test.js}"></script>
+</body>
+</html>

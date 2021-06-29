@@ -2,6 +2,7 @@ package com.pavliuk.spring.service;
 
 import com.pavliuk.spring.dto.TestDto;
 import com.pavliuk.spring.exception.SubjectNotFoundException;
+import com.pavliuk.spring.exception.TestNotFoundException;
 import com.pavliuk.spring.mapper.TestMapper;
 import com.pavliuk.spring.model.TestEntity;
 import com.pavliuk.spring.repository.TestRepository;
@@ -15,5 +16,10 @@ public class TestService {
 
     public TestEntity createTest(TestDto testDto) throws SubjectNotFoundException {
         return testRepository.save(TestMapper.createTestFromDto(testDto));
+    }
+
+    public TestEntity findTest(Long testId) throws TestNotFoundException {
+        return testRepository.findById(testId)
+                .orElseThrow(TestNotFoundException::new);
     }
 }

@@ -81,7 +81,7 @@
                     </a>
                     <!--                    TODO create user_role table-->
                     <!--                    <c:if test="${sessionScope.user.admin}">-->
-                    <a th:href="@{/admin/test/edit(id=*{id})}"
+                    <a th:href="@{/admin/test/edit/{id}(id=*{id})}"
                        th:text="#{quiz_card.edit}"
                        class="btn edit-btn">
                     </a>

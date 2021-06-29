@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -25,6 +26,9 @@ public class TestEntity {
     private String difficulty;
     private Long timer;
     private String title;
+
+    @OneToMany(mappedBy = "testId")
+    private List<Question> questions;
 
     public enum DIFFICULTY {
         EASY,

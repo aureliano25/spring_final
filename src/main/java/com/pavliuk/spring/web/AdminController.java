@@ -5,6 +5,7 @@ import com.pavliuk.spring.dto.TestDto;
 import com.pavliuk.spring.dto.UserDto;
 import com.pavliuk.spring.dto.response.Response;
 import com.pavliuk.spring.exception.SubjectNotFoundException;
+import com.pavliuk.spring.exception.TestNotFoundException;
 import com.pavliuk.spring.model.TestEntity;
 import com.pavliuk.spring.repository.SubjectRepository;
 import com.pavliuk.spring.repository.UserRepository;
@@ -146,5 +147,17 @@ public class AdminController {
             bindingResult.rejectValue("subject", "javax.validation.constraints.login.alreadyExists.message");
             return "/admin/create_test.html";
         }
+    }
+
+    @GetMapping("/test/edit/{testId}")
+    public String editTestForm(
+            @PathVariable Long testId,
+            Model model
+    ) throws TestNotFoundException {
+        model.addAttribute("test", testService.findTest(testId));
+        model.addAttribute("subjects", subjectRepository.findAll());
+        model.addAttribute("difficulties", TestEntity.DIFFICULTY.values());
+
+        return "/admin/update_test.html";
     }
 }
