@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                //.antMatchers("/admin/*").hasRole(UserRole.ADMIN.toString())
+                .antMatchers("/admin/*").hasAuthority(UserRole.ADMIN.toString())
                 .antMatchers("/favicon.ico").permitAll()
                 .antMatchers("/js/*", "/css/*").permitAll()
                 .antMatchers("/process_register*").permitAll()

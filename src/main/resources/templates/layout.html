@@ -17,16 +17,14 @@
 <header th:fragment="header">
     <div class="main-layout">
         <!--        This way we define the ADMIN MENU.-->
-        <div class="menu-item">
+        <div sec:authorize="hasAuthority('ADMIN')" class="menu-item">
             <a th:href="@{/admin/users}" th:text="#{header.users}"></a>
         </div>
-        <div class="menu-item">
-            <a th:href="@{/}" th:text="#{header.tests}"></a>
-        </div>
-        <div class="menu-item">
+
+        <div sec:authorize="hasAuthority('ADMIN')" class="menu-item">
             <a th:href="@{/admin/subjects}" th:text="#{header.subjects}"></a>
         </div>
-        <div class="menu-item">
+        <div sec:authorize="hasAuthority('ADMIN')" class="menu-item">
             <a th:href="@{/admin/test/create}">Create test</a>
         </div>
 
@@ -34,10 +32,10 @@
         <!--        This way we define the USER MENU.-->
 
         <div class="menu-item">
-            <a th:href="@{/statistics}" th:text="#{header.statistics}"></a>
+            <a th:href="@{/}" th:text="#{header.tests}"></a>
         </div>
         <div class="menu-item">
-            <a th:href="@{/}" th:text="#{header.tests}"></a>
+            <a th:href="@{/statistics}" th:text="#{header.statistics}"></a>
         </div>
         <!--            </c:otherwise>-->
         <!--        </c:choose>-->
@@ -97,24 +95,6 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
             crossorigin="anonymous"></script>
     <script>
-        $(() => {
-            let LANGUAGE_SELECTOR_CLASS = '.language-selector .dropdown-item';
-
-            $('.popup-background, .close-popup').on("click", closePopup);
-            $(LANGUAGE_SELECTOR_CLASS).on('click', function () {
-                document.cookie = "language=" + $(this).attr('data-language');
-                window.location.reload();
-            });
-
-            let language = '${cookie.language.value}';
-            $(LANGUAGE_SELECTOR_CLASS).each((i, item) => {
-                if ($(item).attr('data-language') === language) {
-                    $(item).addClass('disabled');
-                }
-            });
-        });
-
-
         function openPopup(innerHtml) {
             $('.popup').html(innerHtml);
             $('body').addClass('popup-opened');
