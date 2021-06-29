@@ -66,18 +66,21 @@ function removeAnswer(answerId) {
 }
 
 function saveQuizSettings() {
+    let data = {
+        id: $("#quiz_id").val(),
+        title: $("#quiz_title").val(),
+        subject: $("#quiz_subject").val(),
+        difficulty: $("#quiz_difficulty").val(),
+        time: $("#quiz_time").val(),
+    };
+    data[getCsrfFieldName()] = getCsrfValue();
+
     $.ajax("/admin/test/edit", {
         method: 'POST',
-        data: {
-            id: $("#quiz_id").val(),
-            title: $("#quiz_title").val(),
-            subject: $("#quiz_subject").val(),
-            difficulty: $("#quiz_difficulty").val(),
-            time_limit: $("#quiz_time").val(),
-        }
+        data: data,
     }).then(
         (data) => {
-            openPopup(data);
+            alert(data.message);
         },
         (error) => {
             console.log(error);

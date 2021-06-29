@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 
 @Data
 public class TestDto {
+    private Long id;
+
     @NotEmpty
     private String title;
 

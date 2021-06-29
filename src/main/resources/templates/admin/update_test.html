@@ -25,6 +25,9 @@
                            id="quiz_title"
                            name="title"
                            th:value="*{title}" />
+                    <p class="form__error"
+                       th:each="error : ${#fields.errors('title')}"
+                       th:text="${error}">Validation error</p>
                 </div>
                 <div class="quiz_setting">
                     <span class="setting_title">Subject: </span>
@@ -56,6 +59,9 @@
                            id="quiz_time"
                            name="time"
                            th:value="*{timer}" />
+                    <p class="form__error"
+                       th:each="error : ${#fields.errors('timer')}"
+                       th:text="${error}">Validation error</p>
                 </div>
                 <div class="btn-wrapper">
                     <button class="form__button settings-save btn-bordered">Save</button>

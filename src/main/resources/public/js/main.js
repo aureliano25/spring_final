@@ -78,3 +78,11 @@ function getCsrfInput() {
 
     return `<input type="hidden" name="${tokenFieldName}" value="${tokenValue}" />`;
 }
+
+function getCsrfFieldName() {
+    return $(CSRF_FIELD_SELECTOR).attr("name");
+}
+
+function getCsrfValue() {
+    return $(CSRF_FIELD_SELECTOR).attr("content");
+}

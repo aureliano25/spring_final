@@ -18,6 +18,7 @@ public class TestMapper {
                 .orElseThrow(SubjectNotFoundException::new);
 
         return TestEntity.builder()
+                .id(testDto.getId())
                 .subject(subject)
                 .difficulty(testDto.getDifficulty())
                 .timer(testDto.getTime())

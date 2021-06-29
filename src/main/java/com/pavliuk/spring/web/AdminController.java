@@ -160,4 +160,23 @@ public class AdminController {
 
         return "/admin/update_test.html";
     }
+
+    @PostMapping("/test/edit")
+    @ResponseBody
+    public Response editTestProcessing(
+            @ModelAttribute("test") @Valid TestDto testDto,
+            BindingResult bindingResult
+    ) {
+        if (bindingResult.hasErrors()) {
+            return Response.badRequest().setMessage("Unable to update data");
+        }
+
+        try {
+            testService.createTest(testDto);
+        } catch (SubjectNotFoundException e) {
+            return Response.badRequest().setMessage("Unable to update data");
+        }
+
+        return Response.ok().setMessage("Updated");
+    }
 }
