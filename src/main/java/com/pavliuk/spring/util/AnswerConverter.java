@@ -1,4 +1,4 @@
-package util;
+package com.pavliuk.spring.util;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

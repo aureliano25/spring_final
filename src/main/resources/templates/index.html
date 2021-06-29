@@ -75,17 +75,14 @@
                     <div th:text="#{quiz_card.difficulty.__*{difficulty}__}" class="quiz-difficulty"></div>
                 </div>
                 <div class="quiz-buttons">
-                    <a th:href="@{/test/start(id=*{id})}"
+                    <a th:href="@{/test/start/{id}(id=*{id})}"
                        th:text="#{quiz_card.start}"
                        class="btn start-btn">
                     </a>
-                    <!--                    TODO create user_role table-->
-                    <!--                    <c:if test="${sessionScope.user.admin}">-->
-                    <a th:href="@{/admin/test/edit/{id}(id=*{id})}"
+                    <a sec:authorize="hasAuthority('ADMIN')" th:href="@{/admin/test/edit/{id}(id=*{id})}"
                        th:text="#{quiz_card.edit}"
                        class="btn edit-btn">
                     </a>
-                    <!--                    </c:if>-->
                 </div>
             </div>
         </div>

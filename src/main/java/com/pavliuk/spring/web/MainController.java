@@ -1,14 +1,17 @@
 package com.pavliuk.spring.web;
 
 import com.pavliuk.spring.dto.SignUpFormDto;
+import com.pavliuk.spring.exception.TestNotFoundException;
 import com.pavliuk.spring.exception.UserAlreadyExistsException;
 import com.pavliuk.spring.model.CustomUserDetails;
 import com.pavliuk.spring.model.Subject;
 import com.pavliuk.spring.model.TestEntity;
+import com.pavliuk.spring.model.UserTest;
 import com.pavliuk.spring.repository.SubjectRepository;
 import com.pavliuk.spring.repository.TestRepository;
 import com.pavliuk.spring.repository.UserRepository;
 import com.pavliuk.spring.repository.UserTestRepository;
+import com.pavliuk.spring.service.TestService;
 import com.pavliuk.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import com.pavliuk.spring.util.UserUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -35,6 +39,9 @@ public class MainController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private TestService testService;
 
     @Autowired
     private UserRepository userRepository;
@@ -104,5 +111,19 @@ public class MainController {
         model.addAttribute("tests", userTestRepository.findAllByUserId(currentUserId));
 
         return "user_statistic.html";
+    }
+
+    @RequestMapping("/test/start/{testId}")
+    public String startTest(
+            @PathVariable Long testId,
+            Principal principal
+    ) throws TestNotFoundException {
+
+        UserTest test = testService.assignTestToUser(
+                testId,
+                UserUtil.getCurrentUser()
+        );
+
+        return "redirect:/test/" + test.getId();
     }
 }

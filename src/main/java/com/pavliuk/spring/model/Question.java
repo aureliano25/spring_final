@@ -1,7 +1,7 @@
 package com.pavliuk.spring.model;
 
 import lombok.Data;
-import util.AnswerConverter;
+import com.pavliuk.spring.util.AnswerConverter;
 
 import javax.persistence.*;
 import java.util.List;
