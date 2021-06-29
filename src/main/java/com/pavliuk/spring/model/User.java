@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static javax.persistence.FetchType.EAGER;
 
@@ -36,4 +37,10 @@ public class User {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Collection<Role> roles;
+
+    public String rolesString() {
+        return roles.stream()
+                .map(Role::getAuthority)
+                .collect(Collectors.joining(","));
+    }
 }

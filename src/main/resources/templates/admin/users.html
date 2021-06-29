@@ -23,7 +23,7 @@
                 <td th:text="*{firstName}"></td>
                 <td th:text="*{lastName}"></td>
                 <td th:text="*{login}"></td>
-                <td th:text="*{roleId}"></td>
+                <td th:text="*{rolesString}"></td>
                 <td>
                     <div th:if="*{blocked}" class="user-status status-blocked">Blocked</div>
                     <div th:unless="*{blocked}" class="user-status status-active">Active</div>
