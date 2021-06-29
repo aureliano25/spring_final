@@ -1,0 +1,46 @@
+<form xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      id="question-form"
+      th:action="@{/admin/question/edit}"
+      method="post" class="form">
+    <input id="question-id"
+           type="hidden"
+           th:value="${question.id}"/>
+
+    <fieldset class="form__group">
+        <label for="question-text">Question text: </label>
+        <div class="empty-item"></div>
+        <input id="question-text"
+               name="question-text"
+               class="form__element element_without_image"
+               type="text"
+               placeholder="Enter your question here"
+               required/>
+    </fieldset>
+
+    <div class="question-options">Options</div>
+    <div class="answers">
+        <fieldset class="form__group flex">
+            <label class="correct_label">
+                <input class="is_right" type="checkbox" placeholder="text">
+                Correct option
+            </label>
+            <input name="answer_text"
+                   class="form__element element_without_image" type="text"
+                   placeholder="Option text"
+                   required/>
+
+            <div class="user-btn delete-btn" title="Delete answer">
+                <i class="fas fa-minus-circle"></i>
+            </div>
+        </fieldset>
+    </div>
+
+    <fieldset class="form__group">
+        <div class="form__button add-option" onclick="addAnswer()">Add Option</div>
+    </fieldset>
+
+    <fieldset class="form__group">
+        <div class="form__button question-create">Create</div>
+    </fieldset>
+</form>

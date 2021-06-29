@@ -94,7 +94,7 @@ function createQuestion() {
     $.ajax("/admin/question/create", {
         method: 'POST',
         data: {
-            question: JSON.stringify(questionInfo),
+            question: questionInfo,
         }
     }).then(
         (data) => {

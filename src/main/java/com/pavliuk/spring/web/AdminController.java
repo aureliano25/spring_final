@@ -1,5 +1,6 @@
 package com.pavliuk.spring.web;
 
+import com.pavliuk.spring.dto.QuestionDto;
 import com.pavliuk.spring.dto.SubjectDto;
 import com.pavliuk.spring.dto.TestDto;
 import com.pavliuk.spring.dto.UserDto;
@@ -178,5 +179,10 @@ public class AdminController {
         }
 
         return Response.ok().setMessage("Updated");
+    }
+
+    @GetMapping("/question/create")
+    public String createQuestionForm(@ModelAttribute("question") QuestionDto questionDto) {
+        return "/admin/create_question.html";
     }
 }
