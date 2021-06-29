@@ -689,7 +689,7 @@ td, th {
 }
 
 .info-block input {
-    width: 100%;
+    width: 96%;
     font-size: 1rem;
     padding: .6rem 2.25rem .6rem 1.2rem;
     border-radius: .25rem;
@@ -953,4 +953,9 @@ td, th {
     font-size: 1rem;
     display: flex;
     float: left;
+}
+
+.quiz_setting .form__error  {
+    float: none;
+    margin-left: 0;
 }

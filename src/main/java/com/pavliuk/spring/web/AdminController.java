@@ -1,20 +1,22 @@
 package com.pavliuk.spring.web;
 
 import com.pavliuk.spring.dto.SubjectDto;
+import com.pavliuk.spring.dto.TestDto;
 import com.pavliuk.spring.dto.UserDto;
 import com.pavliuk.spring.dto.response.Response;
+import com.pavliuk.spring.exception.SubjectNotFoundException;
+import com.pavliuk.spring.model.TestEntity;
 import com.pavliuk.spring.repository.SubjectRepository;
 import com.pavliuk.spring.repository.UserRepository;
 import com.pavliuk.spring.service.SubjectService;
+import com.pavliuk.spring.service.TestService;
 import com.pavliuk.spring.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -32,6 +34,9 @@ public class AdminController {
 
     @Autowired
     private SubjectRepository subjectRepository;
+
+    @Autowired
+    private TestService testService;
 
     @RequestMapping("/users")
     public String getUsersView(Model model) {
@@ -108,5 +113,38 @@ public class AdminController {
         }
 
         return Response.ok().setMessage("Subject was successfully updated");
+    }
+
+    @GetMapping("/test/create")
+    public String testCreationForm(
+            @ModelAttribute("test")TestDto testDto,
+            Model model
+    ) {
+        model.addAttribute("subjects", subjectRepository.findAll());
+        model.addAttribute("difficulties", TestEntity.DIFFICULTY.values());
+
+        return "/admin/create_test.html";
+    }
+
+    @PostMapping("/test/create")
+    public String testCreationProcessing(
+            @ModelAttribute("test") @Valid TestDto testDto,
+            BindingResult bindingResult,
+            Model model
+    ) {
+        model.addAttribute("subjects", subjectRepository.findAll());
+        model.addAttribute("difficulties", TestEntity.DIFFICULTY.values());
+
+        if (bindingResult.hasErrors()) {
+            return "/admin/create_test.html";
+        }
+
+        try {
+            TestEntity testEntity = testService.createTest(testDto);
+            return "redirect:/admin/test/update/" + testEntity.getId();
+        } catch (SubjectNotFoundException e) {
+            bindingResult.rejectValue("subject", "javax.validation.constraints.login.alreadyExists.message");
+            return "/admin/create_test.html";
+        }
     }
 }
