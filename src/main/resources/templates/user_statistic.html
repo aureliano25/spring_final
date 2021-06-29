@@ -1,0 +1,42 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout :: head">
+    <meta charset="UTF-8">
+    <title id="pageTitle">Statistics</title>
+</head>
+<body>
+<header th:replace="layout::header"></header>
+<div class="wrapper">
+    <div class="table-container main-layout">
+        <table>
+            <tr>
+                <th>TEST NAME</th>
+                <th>SUBJECT</th>
+                <th>START DATE</th>
+                <th>END DATE</th>
+                <th>STATUS</th>
+                <th>SCORE</th>
+            </tr>
+            <tr th:each="test : ${tests}" th:object="${test}">
+                <td th:if="${test.finishedAt != null}" th:text="*{test.title}"></td>
+                <td th:unless="${test.finishedAt != null}">
+                    <a th:href="@{/test(id=*{id})}" th:text="*{test.title}"></a>
+                </td>
+                <td th:text="*{test.subject.name}"></td>
+                <td th:text="*{startedAt}"></td>
+                <td th:text="*{finishedAt}"></td>
+                <td>
+                    <div th:if="${test.finishedAt != null}" class="status-btn status-finished">FINISHED</div>
+                    <div th:unless="${test.finishedAt != null}" class="status-btn status-progress">IN PROGRESS</div>
+                </td>
+                <td th:text="*{score}">${userTest.score}</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<footer th:replace="layout::footer"></footer>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
