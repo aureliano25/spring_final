@@ -967,3 +967,10 @@ td, th {
 label[for="submitBtn"] {
     cursor: pointer;
 }
+
+.quiz-replacer {
+    height: 150px;
+    width: 100%;
+    text-align: center;
+    font-size: 24px;
+}

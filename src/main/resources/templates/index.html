@@ -59,6 +59,8 @@
             </ul>
         </div>
         <div class="quiz-container">
+            <div th:if="${testsPage.toList().size <= 0}"
+                 class="quiz-replacer">No tests found</div>
             <div th:each="test: ${testsPage.toList()}" th:object="${test}" class="quiz-card">
                 <div class="quiz-title">
                     <a th:text="*{title}" href="#" class="quiz-link"></a>

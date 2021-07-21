@@ -86,7 +86,10 @@ public class MainController {
     }
 
     @PostMapping("/signup")
-    public String processRegister(@ModelAttribute("signUpForm") @Valid SignUpFormDto signUpForm, BindingResult bindingResult) {
+    public String processRegister(
+            @ModelAttribute("signUpForm") @Valid SignUpFormDto signUpForm,
+            BindingResult bindingResult
+    ) {
         if (bindingResult.hasErrors()) {
             return "signup";
         }
