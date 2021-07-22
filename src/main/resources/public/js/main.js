@@ -83,6 +83,10 @@ function getCsrfFieldName() {
     return $(CSRF_FIELD_SELECTOR).attr("name");
 }
 
+function getCsrfHeaderName() {
+    return $(CSRF_FIELD_SELECTOR).attr("data-header");
+}
+
 function getCsrfValue() {
     return $(CSRF_FIELD_SELECTOR).attr("content");
 }

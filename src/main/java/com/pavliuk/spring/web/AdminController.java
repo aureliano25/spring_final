@@ -10,6 +10,7 @@ import com.pavliuk.spring.exception.TestNotFoundException;
 import com.pavliuk.spring.model.TestEntity;
 import com.pavliuk.spring.repository.SubjectRepository;
 import com.pavliuk.spring.repository.UserRepository;
+import com.pavliuk.spring.service.QuestionService;
 import com.pavliuk.spring.service.SubjectService;
 import com.pavliuk.spring.service.TestService;
 import com.pavliuk.spring.service.UserService;
@@ -20,7 +21,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin")
@@ -39,6 +42,9 @@ public class AdminController {
 
     @Autowired
     private TestService testService;
+
+    @Autowired
+    private QuestionService questionService;
 
     @RequestMapping("/users")
     public String getUsersView(Model model) {
@@ -184,5 +190,12 @@ public class AdminController {
     @GetMapping("/question/create")
     public String createQuestionForm(@ModelAttribute("question") QuestionDto questionDto) {
         return "/admin/create_question.html";
+    }
+
+    @PostMapping(value = "/question/create", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public Response createQuestion(@RequestBody QuestionDto questionDto) {
+        questionService.createQuestion(questionDto);
+        return Response.ok();
     }
 }

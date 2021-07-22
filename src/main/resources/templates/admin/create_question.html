@@ -1,7 +1,7 @@
 <form xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org"
       id="question-form"
-      th:action="@{/admin/question/edit}"
+      th:action="@{/admin/question/create}"
       method="post" class="form">
     <input id="question-id"
            type="hidden"
@@ -42,5 +42,6 @@
 
     <fieldset class="form__group">
         <div class="form__button question-create">Create</div>
+<!--        <button class="form__button question-create">Create</button>-->
     </fieldset>
 </form>

@@ -11,6 +11,7 @@
             type="hidden"
             id="_csrf"
             th:name="${_csrf.parameterName}"
+            th:data-header="${_csrf.headerName}"
             th:content="${_csrf.token}" />
 </head>
 <body>

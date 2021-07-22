@@ -89,13 +89,17 @@ function saveQuizSettings() {
 }
 
 function createQuestion() {
-    let questionInfo = getQuestionInfo();
+    let data = getQuestionInfo();
+    data[getCsrfFieldName()] = getCsrfValue();
 
     $.ajax("/admin/question/create", {
         method: 'POST',
-        data: {
-            question: questionInfo,
-        }
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(getCsrfHeaderName(), getCsrfValue());
+        },
+        data: JSON.stringify(data),
     }).then(
         (data) => {
             window.location.reload();
@@ -130,10 +134,9 @@ function getQuestionInfo() {
     let question = {};
     question.questionText = $("#question-text").val();
     question.testId = $("#quiz_id").val();
-    // question.questionId = $("#question-id").val();
+    question.questionId = $("#question-id").val();
     question.answers = [];
     $('.answers fieldset').each(function () {
-        let answerId = $(this).find('.answer-id').val();
         let text = $(this).find("input[name='answer_text']").val();
         let isCorrect = $(this).find(".is_right").is(":checked");
         question.answers.push({
@@ -141,6 +144,7 @@ function getQuestionInfo() {
             isCorrect: isCorrect,
         });
     });
+    // question.answers = JSON.stringify(question.answers);
 
     return question;
 }
