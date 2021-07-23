@@ -5,8 +5,10 @@ import com.pavliuk.spring.dto.SubjectDto;
 import com.pavliuk.spring.dto.TestDto;
 import com.pavliuk.spring.dto.UserDto;
 import com.pavliuk.spring.dto.response.Response;
+import com.pavliuk.spring.exception.QuestionNotFoundException;
 import com.pavliuk.spring.exception.SubjectNotFoundException;
 import com.pavliuk.spring.exception.TestNotFoundException;
+import com.pavliuk.spring.model.Question;
 import com.pavliuk.spring.model.TestEntity;
 import com.pavliuk.spring.repository.SubjectRepository;
 import com.pavliuk.spring.repository.UserRepository;
@@ -195,6 +197,21 @@ public class AdminController {
     @PostMapping(value = "/question/create", consumes = "application/json", produces = "application/json")
     @ResponseBody
     public Response createQuestion(@RequestBody QuestionDto questionDto) {
+        questionService.createQuestion(questionDto);
+        return Response.ok();
+    }
+
+    @GetMapping(value = "/question/edit")
+    public String updateQuestionForm(@RequestParam Long id, Model model) throws QuestionNotFoundException {
+        Question question = questionService.findById(id);
+        model.addAttribute("question", question);
+
+        return "/admin/update_question.html";
+    }
+
+    @PostMapping(value = "/question/edit", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public Response updateQuestion(@RequestBody QuestionDto questionDto) {
         questionService.createQuestion(questionDto);
         return Response.ok();
     }

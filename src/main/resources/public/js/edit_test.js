@@ -116,10 +116,12 @@ function saveQuestion() {
 
     $.ajax("/admin/question/edit", {
         method: 'POST',
+        contentType:"application/json; charset=utf-8",
         dataType: 'json',
-        data: {
-            question: JSON.stringify(question),
-        }
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(getCsrfHeaderName(), getCsrfValue());
+        },
+        data: JSON.stringify(question),
     }).then(
         () => {
             window.location.reload();

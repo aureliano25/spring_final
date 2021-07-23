@@ -15,7 +15,7 @@ $(() => {
     $(".btn-block").on("click", function () {
         blockUser($(this).attr("data-id"));
     });
-    $('.popup-background, .close-popup').on("click", closePopup);
+    $(document).on("click", '.popup-background, .close-popup', closePopup);
 
     $(document).on("click", ".save-user", function (e) {
         e.preventDefault();

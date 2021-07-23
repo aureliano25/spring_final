@@ -5,7 +5,7 @@
       method="post" class="form">
     <input id="question-id"
            type="hidden"
-           th:value="${question.questionId}"/>
+           th:value="${question.id}"/>
 
     <fieldset class="form__group">
         <label for="question-text">Question text: </label>
@@ -14,19 +14,22 @@
                name="question-text"
                class="form__element element_without_image"
                type="text"
+               th:value="${question.text}"
                placeholder="Enter your question here"
                required/>
     </fieldset>
 
     <div class="question-options">Options</div>
     <div class="answers">
-        <fieldset class="form__group flex">
+        <fieldset th:each="answer : ${question.answers}" class="form__group flex">
             <label class="correct_label">
-                <input class="is_right" type="checkbox" placeholder="text">
+                <input class="is_right" type="checkbox" placeholder="text" th:checked="${answer.isCorrect}">
                 Correct option
             </label>
             <input name="answer_text"
                    class="form__element element_without_image" type="text"
+                   th:value="${answer.text}"
+                   th:checked="${answer.isCorrect}"
                    placeholder="Option text"
                    required/>
 
@@ -41,7 +44,7 @@
     </fieldset>
 
     <fieldset class="form__group">
-        <div class="form__button question-create">Create</div>
+        <div class="form__button question-save">Save</div>
 <!--        <button class="form__button question-create">Create</button>-->
     </fieldset>
 </form>
