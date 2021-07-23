@@ -3,10 +3,7 @@ package com.pavliuk.spring.web;
 import com.pavliuk.spring.dto.SignUpFormDto;
 import com.pavliuk.spring.exception.TestNotFoundException;
 import com.pavliuk.spring.exception.UserAlreadyExistsException;
-import com.pavliuk.spring.model.CustomUserDetails;
-import com.pavliuk.spring.model.Subject;
-import com.pavliuk.spring.model.TestEntity;
-import com.pavliuk.spring.model.UserTest;
+import com.pavliuk.spring.model.*;
 import com.pavliuk.spring.repository.SubjectRepository;
 import com.pavliuk.spring.repository.TestRepository;
 import com.pavliuk.spring.repository.UserRepository;
@@ -26,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import com.pavliuk.spring.util.UserUtil;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -109,7 +107,7 @@ public class MainController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Long currentUserId = 2L;
         if (principal instanceof CustomUserDetails) {
-            currentUserId = ((CustomUserDetails)principal).getId();
+            currentUserId = ((CustomUserDetails) principal).getId();
         }
         model.addAttribute("tests", userTestRepository.findAllByUserId(currentUserId));
 
@@ -119,14 +117,63 @@ public class MainController {
     @RequestMapping("/test/start/{testId}")
     public String startTest(
             @PathVariable Long testId,
-            Principal principal
+            HttpSession session
     ) throws TestNotFoundException {
 
-        UserTest test = testService.assignTestToUser(
-                testId,
-                UserUtil.getCurrentUser()
-        );
+        UserTest test = testService.assignTestToUser(testId, UserUtil.getCurrentUser());
+        testService.saveUserTestToSession(test, session);
 
-        return "redirect:/test/" + test.getId();
+        return "redirect:/test/current";
+    }
+
+    @RequestMapping("/test/current")
+    public String currentTest(HttpSession session, Model model) {
+        UserTestWrapper currentTest = testService.getCurrentTestFromSession(session);
+        model.addAttribute("test", currentTest);
+
+        return "test.html";
+    }
+
+    @RequestMapping("/test/next")
+    public String nextQuestion(
+            @RequestParam(value="options[]",required = false) List<Integer> options,
+            @RequestParam("time_left") Integer timeLeft,
+            HttpSession session
+    ) {
+        UserTestWrapper currentTest = testService.getCurrentTestFromSession(session);
+        currentTest.setTimeLimit(timeLeft);
+        if (options != null) {
+            currentTest.updateSelectedAnswers(options);
+        }
+
+        if (currentTest.hasNext()) {
+            currentTest.nextQuestion();
+        }
+
+        return "redirect:/test/current";
+    }
+
+    @RequestMapping("/test/previous")
+    public String previousQuestion(
+            @RequestParam(value="options[]",required = false) List<Integer> options,
+            @RequestParam("time_left") Integer timeLeft,
+            HttpSession session
+    ) {
+        UserTestWrapper currentTest = testService.getCurrentTestFromSession(session);
+        currentTest.setTimeLimit(timeLeft);
+        if (options != null) {
+            currentTest.updateSelectedAnswers(options);
+        }
+
+        if (currentTest.hasPrevious()) {
+            currentTest.previousQuestion();
+        }
+
+        return "redirect:/test/current";
+    }
+
+    @RequestMapping("/test/finish")
+    public String finishTest(HttpSession session) {
+        return "finish_test.html";
     }
 }
