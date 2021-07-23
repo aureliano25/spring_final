@@ -24,4 +24,8 @@ public class QuestionService {
                 .findById(id)
                 .orElseThrow(QuestionNotFoundException::new);
     }
+
+    public void deleteQuestion(Long questionId) {
+        repository.deleteById(questionId);
+    }
 }

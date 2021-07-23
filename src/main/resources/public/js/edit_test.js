@@ -167,6 +167,9 @@ function openCreateQuestionPopup() {
 function deleteQuestion(questionId) {
     $.ajax('/admin/question/delete', {
         method: 'POST',
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader(getCsrfHeaderName(), getCsrfValue());
+        },
         data: {
             id: questionId,
         },

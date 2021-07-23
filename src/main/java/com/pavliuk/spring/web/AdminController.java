@@ -215,4 +215,12 @@ public class AdminController {
         questionService.createQuestion(questionDto);
         return Response.ok();
     }
+
+    @PostMapping("/question/delete")
+    @ResponseBody
+    public Response deleteQuestion(@RequestParam("id") Long questionId) {
+        questionService.deleteQuestion(questionId);
+
+        return Response.ok().setMessage("Updated");
+    }
 }
