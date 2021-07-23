@@ -974,3 +974,8 @@ label[for="submitBtn"] {
     text-align: center;
     font-size: 24px;
 }
+
+.answers {
+    overflow-y: auto;
+    max-height: 155px;
+}
