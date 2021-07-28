@@ -11,23 +11,19 @@ import com.pavliuk.spring.repository.UserTestRepository;
 import com.pavliuk.spring.service.TestService;
 import com.pavliuk.spring.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.pavliuk.spring.util.UserUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -122,7 +118,7 @@ public class MainController {
             @PathVariable Long testId,
             HttpSession session
     ) throws TestNotFoundException {
-
+        testService.finishPreviousTest(session);
         UserTest test = testService.assignTestToUser(testId, UserUtil.getCurrentUser());
         testService.saveUserTestToSession(test, session);
 

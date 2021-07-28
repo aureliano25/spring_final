@@ -22,7 +22,7 @@
             <tr th:each="test : ${tests}" th:object="${test}">
                 <td th:if="${test.finishedAt != null}" th:text="*{test.title}"></td>
                 <td th:unless="${test.finishedAt != null}">
-                    <a th:href="@{/test/{id}(id=*{id})}" th:text="*{test.title}"></a>
+                    <a th:href="@{/test/current}" th:text="*{test.title}"></a>
                 </td>
                 <td th:text="*{test.subject.name}"></td>
                 <td th:text="*{startedAt}"></td>

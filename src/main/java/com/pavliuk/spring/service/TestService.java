@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -47,7 +48,6 @@ public class TestService {
     }
 
     public void saveUserTestToSession(UserTest userTest, HttpSession session) {
-        finishPreviousTest();
         session.setAttribute(USER_TEST_SESSION_KEY, new UserTestWrapper(userTest));
     }
 
@@ -55,8 +55,8 @@ public class TestService {
         return (UserTestWrapper) session.getAttribute(USER_TEST_SESSION_KEY);
     }
 
-    private void finishPreviousTest() {
-        //TODO
+    public void finishPreviousTest(HttpSession session) {
+        userTestRepository.finishAllTests(new Date());
     }
 
     public double finishCurrentTest(HttpSession session) throws TestNotFoundException {
