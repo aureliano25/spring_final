@@ -1,4 +1,4 @@
-package com.pavliuk.spring.web;
+package com.pavliuk.spring.controller;
 
 import com.pavliuk.spring.dto.SignUpFormDto;
 import com.pavliuk.spring.exception.TestNotFoundException;
