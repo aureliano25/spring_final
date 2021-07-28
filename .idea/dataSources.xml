@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="epam" uuid="a82f5893-cef8-4917-9bdc-5fec3a32b25e">
+    <data-source source="LOCAL" name="epam_spring" uuid="d443abb4-9ad7-4bcb-9404-f29b60d101df">
       <driver-ref>mysql.8</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>

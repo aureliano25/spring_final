@@ -10,6 +10,8 @@ import com.pavliuk.spring.repository.UserRepository;
 import com.pavliuk.spring.repository.UserTestRepository;
 import com.pavliuk.spring.service.TestService;
 import com.pavliuk.spring.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Controller
 public class MainController {
     private static final int DEFAULT_TEST_PER_PAGE = 6;
@@ -136,15 +139,12 @@ public class MainController {
 
     @RequestMapping("/test/next")
     public String nextQuestion(
-            @RequestParam(value="options[]",required = false) List<Integer> options,
+            @RequestParam(value = "options[]", required = false) List<Integer> options,
             @RequestParam("time_left") Integer timeLeft,
             HttpSession session
     ) {
         UserTestWrapper currentTest = testService.getCurrentTestFromSession(session);
-        currentTest.setTimeLimit(timeLeft);
-        if (options != null) {
-            currentTest.updateSelectedAnswers(options);
-        }
+        currentTest.update(options, timeLeft);
 
         if (currentTest.hasNext()) {
             currentTest.nextQuestion();
@@ -155,15 +155,12 @@ public class MainController {
 
     @RequestMapping("/test/previous")
     public String previousQuestion(
-            @RequestParam(value="options[]",required = false) List<Integer> options,
+            @RequestParam(value = "options[]", required = false) List<Integer> options,
             @RequestParam("time_left") Integer timeLeft,
             HttpSession session
     ) {
         UserTestWrapper currentTest = testService.getCurrentTestFromSession(session);
-        currentTest.setTimeLimit(timeLeft);
-        if (options != null) {
-            currentTest.updateSelectedAnswers(options);
-        }
+        currentTest.update(options, timeLeft);
 
         if (currentTest.hasPrevious()) {
             currentTest.previousQuestion();
@@ -173,7 +170,19 @@ public class MainController {
     }
 
     @RequestMapping("/test/finish")
-    public String finishTest(HttpSession session) {
-        return "finish_test.html";
+    public String finishTest(
+            @RequestParam(value = "options[]", required = false) List<Integer> options,
+            HttpSession session,
+            Model model
+    ) throws TestNotFoundException {
+        UserTestWrapper currentTest = testService.getCurrentTestFromSession(session);
+        currentTest.update(options, 0);
+        double testScore = testService.finishCurrentTest(session);
+
+        log.info("finish test " + currentTest);
+        model.addAttribute("test", currentTest);
+        model.addAttribute("testResult", testScore);
+
+        return "finish_test";
     }
 }

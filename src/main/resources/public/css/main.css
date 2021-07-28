@@ -585,8 +585,7 @@ td, th {
 }
 
 .question-delete span,
-.user-btn span
-{
+.user-btn span {
     margin-left: 3px;
 }
 
@@ -646,7 +645,7 @@ td, th {
 .add-option,
 .create-question,
 .create-subject,
-.save-subject{
+.save-subject {
     border: 1px solid #1f98bb;
     background: white;
     color: #1f98bb;
@@ -771,14 +770,21 @@ td, th {
 }
 
 .option-label:hover,
-.option-label.selected
-{
+.option-label.selected {
     background-color: #1c7731;
     color: white;
 }
 
+.option-disabled {
+    cursor: default;
+}
+
 .option-label:first-child {
     margin-top: 20px;
+}
+
+.result-answer .option-label:first-child {
+    margin-top: 0;
 }
 
 .option-label:last-child {
@@ -796,6 +802,7 @@ td, th {
 
 .test-question__text {
     margin-bottom: 20px;
+    font-size: 24px;
 }
 
 .test-btns {
@@ -955,7 +962,7 @@ td, th {
     float: left;
 }
 
-.quiz_setting .form__error  {
+.quiz_setting .form__error {
     float: none;
     margin-left: 0;
 }
@@ -978,4 +985,33 @@ label[for="submitBtn"] {
 .answers {
     overflow-y: auto;
     max-height: 155px;
+}
+
+.question-block .test-question {
+    margin-bottom: 50px;
+}
+
+.question-block .test-question:last-child {
+    margin-bottom: 0;
+}
+
+.result-answer {
+    display: flex;
+    align-items: baseline;
+}
+
+.result-answer .option-disabled {
+    width: 100%;
+}
+
+.incorrect-answer {
+    margin-left: 15px;
+}
+
+.correct_answer {
+    margin-left: 10px;
+}
+
+.not-selected-answer {
+    margin-left: 25px;
 }

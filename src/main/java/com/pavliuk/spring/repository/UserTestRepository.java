@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface UserTestRepository extends JpaRepository<UserTest, Long> {
     List<UserTest> findAllByUserId(Long userId);
-    Optional<UserTest> findByTestAndUser(TestEntity testEntity, User user);
+    Optional<UserTest> findByTestAndUserAndFinishedAtIsNull(TestEntity testEntity, User user);
 }

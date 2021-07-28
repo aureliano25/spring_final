@@ -17,4 +17,14 @@ public class QuestionWrapper {
             answers.add(new AnswerWrapper(answer));
         }
     }
+
+    public boolean isAnsweredCorrectly() {
+        for (AnswerWrapper answer : answers) {
+            if (answer.isCorrect() ^ answer.isSelected()) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

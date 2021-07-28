@@ -4,16 +4,15 @@ import com.pavliuk.spring.dto.TestDto;
 import com.pavliuk.spring.exception.SubjectNotFoundException;
 import com.pavliuk.spring.exception.TestNotFoundException;
 import com.pavliuk.spring.mapper.TestMapper;
-import com.pavliuk.spring.model.TestEntity;
-import com.pavliuk.spring.model.User;
-import com.pavliuk.spring.model.UserTest;
-import com.pavliuk.spring.model.UserTestWrapper;
+import com.pavliuk.spring.model.*;
 import com.pavliuk.spring.repository.TestRepository;
 import com.pavliuk.spring.repository.UserTestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
+import java.util.stream.Stream;
 
 @Service
 public class TestService {
@@ -38,7 +37,7 @@ public class TestService {
     }
 
     public UserTest assignTestToUser(Long testId, User user) throws TestNotFoundException {
-        return userTestRepository.findByTestAndUser(findTest(testId), user)
+        return userTestRepository.findByTestAndUserAndFinishedAtIsNull(findTest(testId), user)
                 .orElse(createUserTest(testId, user));
     }
 
@@ -58,5 +57,26 @@ public class TestService {
 
     private void finishPreviousTest() {
         //TODO
+    }
+
+    public double finishCurrentTest(HttpSession session) throws TestNotFoundException {
+        UserTestWrapper testWrapper = getCurrentTestFromSession(session);
+        UserTest test = userTestRepository.findById(testWrapper.getId())
+                .orElseThrow(TestNotFoundException::new);
+
+        test.setFinishedAt(new Date());
+        test.setScore(getTestScore(testWrapper));
+        userTestRepository.save(test);
+
+        return test.getScore();
+    }
+
+    private double getTestScore(UserTestWrapper test) {
+        long correctQuestionsCount = test.getQuestions()
+                .stream()
+                .filter(QuestionWrapper::isAnsweredCorrectly)
+                .count();
+
+        return (double)correctQuestionsCount / test.getQuestions().size() * 100;
     }
 }

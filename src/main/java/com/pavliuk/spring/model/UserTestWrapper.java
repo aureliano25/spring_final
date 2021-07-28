@@ -52,4 +52,11 @@ public class UserTestWrapper {
             answers.get(i).setSelected(false);
         }
     }
+
+    public void update(List<Integer> selectedAnswers, Integer timeLeft) {
+        setTimeLimit(timeLeft);
+        if (selectedAnswers != null) {
+            updateSelectedAnswers(selectedAnswers);
+        }
+    }
 }

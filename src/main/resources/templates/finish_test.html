@@ -1,0 +1,50 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="layout :: head">
+  <meta charset="UTF-8">
+  <title id="pageTitle">Statistics</title>
+</head>
+<body>
+<header th:replace="layout::header"></header>
+<div class="wrapper">
+
+  <div class="main-layout">
+
+    <div class="question-block">
+      <h1>
+        Congratulations! Your result is <span th:text="${#numbers.formatDecimal(testResult, 0, 2)} + '%'"></span>
+        <a th:href="@{/}" th:text="#{link.main_page}"></a>
+      </h1>
+      <div th:each="question : ${test.questions}" class="test-question">
+        <div th:text="${question.text}" class="test-question__text"></div>
+        <div class="result-answer" th:each="answer,iter : ${question.answers}">
+          <div class="option-label option-disabled"
+               th:classappend="${answer.isSelected} ? 'selected' : ''">
+
+            <input type="checkbox"
+                   class="option"
+                   name="options[]"
+                   th:value="${iter.index}"
+                   th:checked="${answer.isSelected}" disabled/>
+
+            <span class="option-text" th:text="${answer.text}"></span>
+          </div>
+          <span th:if="${answer.isSelected && !answer.isCorrect}" class="incorrect-answer">
+            <i class="fa fa-times" aria-hidden="true"></i>
+          </span>
+          <span th:if="${answer.isCorrect}" class="correct_answer">
+            <i class="fas fa-check"></i>
+          </span>
+          <span th:if="${!answer.isCorrect && !answer.isSelected}" class="not-selected-answer"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<footer th:replace="layout::footer"></footer>
+<script th:src="@{/js/main.js}"></script>
+</body>
+</html>
