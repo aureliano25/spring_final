@@ -1,4 +1,4 @@
-package com.pavliuk.spring;
+package com.pavliuk.spring.config;
 
 import com.pavliuk.spring.model.UserRole;
 import com.pavliuk.spring.service.UserService;
