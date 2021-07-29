@@ -21,7 +21,6 @@ public class Question {
     @Column(name = "is_active")
     private boolean isActive;
 
-    @Column(name = "answers", columnDefinition = "json")
-    @Convert(converter = AnswerConverter.class)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers;
 }

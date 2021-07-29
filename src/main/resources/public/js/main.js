@@ -24,6 +24,7 @@ $(() => {
     });
 
     $('.sort_name').text($('.sort-item-current').text());
+    $('.popup-background, .close-popup').on("click", closePopup);
 });
 
 const CSRF_FIELD_SELECTOR = "#_csrf";

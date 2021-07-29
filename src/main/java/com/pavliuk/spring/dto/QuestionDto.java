@@ -1,6 +1,5 @@
 package com.pavliuk.spring.dto;
 
-import com.pavliuk.spring.model.Answer;
 import lombok.Data;
 
 import java.util.List;
@@ -10,5 +9,5 @@ public class QuestionDto {
     private Long questionId;
     private String questionText;
     private Long testId;
-    private List<Answer> answers;
+    private List<AnswerDto> answers;
 }

@@ -14,7 +14,7 @@ public class QuestionService {
     @Autowired
     private QuestionRepository repository;
 
-    public Question createQuestion(QuestionDto questionDto) {
+    public Question updateQuestion(QuestionDto questionDto) {
         Question question = QuestionMapper.createQuestionFromDto(questionDto);
         return repository.save(question);
     }

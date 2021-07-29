@@ -194,7 +194,7 @@ public class AdminController {
     @PostMapping(value = "/question/create", consumes = "application/json", produces = "application/json")
     @ResponseBody
     public Response createQuestion(@RequestBody QuestionDto questionDto) {
-        questionService.createQuestion(questionDto);
+        questionService.updateQuestion(questionDto);
         return Response.ok();
     }
 
@@ -203,13 +203,13 @@ public class AdminController {
         Question question = questionService.findById(id);
         model.addAttribute("question", question);
 
-        return "/admin/update_question.html";
+        return "/admin/update_question";
     }
 
     @PostMapping(value = "/question/edit", consumes = "application/json", produces = "application/json")
     @ResponseBody
     public Response updateQuestion(@RequestBody QuestionDto questionDto) {
-        questionService.createQuestion(questionDto);
+        questionService.updateQuestion(questionDto);
         return Response.ok();
     }
 

@@ -42,21 +42,21 @@ function openQuestionForm(questionId) {
 }
 
 function addAnswer() {
-    let answerHtml =
-        '<fieldset class="form__group flex">' +
-        '<label class="correct_label">' +
-        '<input class="is_right" type="checkbox">' +
-        'Correct option ' +
-        '</label>' +
-        '<input name="answer_text" ' +
-        'class="form__element element_without_image" ' +
-        'type="text" ' +
-        'placeholder="Option text" ' +
-        'required/> ' +
-        '<div class="user-btn delete-btn" data-new="true" title="Delete answer"> ' +
-        '<i class="fas fa-minus-circle"></i> ' +
-        '</div>' +
-        '</fieldset>';
+    let answerHtml = `
+        <fieldset class="form__group flex answer" id="0">
+            <label class="correct_label">
+                <input class="is_right" type="checkbox">Correct option 
+            </label>
+            <input name="answer_text"
+                class="form__element element_without_image"
+                type="text"
+                placeholder="Option text"
+                required/> 
+            <div class="user-btn delete-btn" data-new="true" title="Delete answer"> 
+                <i class="fas fa-minus-circle"></i> 
+            </div>
+        </fieldset>
+    `;
 
     $('.answers').append(answerHtml);
 }
@@ -138,10 +138,11 @@ function getQuestionInfo() {
     question.testId = $("#quiz_id").val();
     question.questionId = $("#question-id").val();
     question.answers = [];
-    $('.answers fieldset').each(function () {
+    $('.answer').each(function () {
         let text = $(this).find("input[name='answer_text']").val();
         let isCorrect = $(this).find(".is_right").is(":checked");
         question.answers.push({
+            id: $(this).attr("data-id"),
             text: text,
             isCorrect: isCorrect,
         });
