@@ -1015,3 +1015,8 @@ label[for="submitBtn"] {
 .not-selected-answer {
     margin-left: 25px;
 }
+
+.answer-errors {
+    margin-left: 10%;
+    color: red;
+}

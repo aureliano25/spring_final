@@ -20,7 +20,7 @@ $('.create-question').on('click', () => {
 });
 
 $(document).on('click', '.question-create', () => {
-    createQuestion();
+    saveQuestion();
 });
 
 let itemsToRemove = [];
@@ -88,26 +88,10 @@ function saveQuizSettings() {
     );
 }
 
-function createQuestion() {
-    let data = getQuestionInfo();
-    data[getCsrfFieldName()] = getCsrfValue();
-
-    $.ajax("/admin/question/create", {
-        method: 'POST',
-        contentType:"application/json; charset=utf-8",
-        dataType:"json",
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader(getCsrfHeaderName(), getCsrfValue());
-        },
-        data: JSON.stringify(data),
-    }).then(
-        (data) => {
-            window.location.reload();
-        },
-        (data) => {
-            window.location.reload();
-        }
-    );
+function printAnswerErrors(errors) {
+    let errorsContainer = $('.answer-errors');
+    errorsContainer.empty();
+    errors.forEach(error => errorsContainer.append(`<div class="error">${error}</div>`));
 }
 
 function saveQuestion() {
@@ -123,11 +107,16 @@ function saveQuestion() {
         },
         data: JSON.stringify(question),
     }).then(
-        () => {
-            window.location.reload();
+        (data) => {
+            if (data.errors == null) {
+                window.location.reload();
+                return;
+            }
+
+            printAnswerErrors(data.errors);
         },
-        () => {
-            window.location.reload();
+        (data) => {
+            printAnswerErrors(['Something went wrong. Try again later']);
         }
     );
 }
@@ -144,7 +133,7 @@ function getQuestionInfo() {
         question.answers.push({
             id: $(this).attr("data-id"),
             text: text,
-            isCorrect: isCorrect,
+            correct: isCorrect,
         });
     });
     // question.answers = JSON.stringify(question.answers);
@@ -153,7 +142,6 @@ function getQuestionInfo() {
 }
 
 function openCreateQuestionPopup() {
-    console.log("createquestionPopup");
     $.ajax("/admin/question/create")
         .then(
             (data) => {

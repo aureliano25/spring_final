@@ -3,10 +3,15 @@ package com.pavliuk.spring.service;
 import com.pavliuk.spring.dto.QuestionDto;
 import com.pavliuk.spring.exception.QuestionNotFoundException;
 import com.pavliuk.spring.mapper.QuestionMapper;
+import com.pavliuk.spring.model.Answer;
 import com.pavliuk.spring.model.Question;
+import com.pavliuk.spring.repository.AnswerRepository;
 import com.pavliuk.spring.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class QuestionService {
@@ -14,9 +19,16 @@ public class QuestionService {
     @Autowired
     private QuestionRepository repository;
 
+    @Autowired
+    private AnswerRepository answerRepository;
+
+    @Transactional
     public Question updateQuestion(QuestionDto questionDto) {
         Question question = QuestionMapper.createQuestionFromDto(questionDto);
-        return repository.save(question);
+        repository.save(question);
+        question.getAnswers().forEach(a -> a.setQuestion(question));
+        answerRepository.saveAll(question.getAnswers());
+        return question;
     }
 
     public Question findById(Long id) throws QuestionNotFoundException {

@@ -21,6 +21,6 @@ public class Question {
     @Column(name = "is_active")
     private boolean isActive;
 
-    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "question")
     private List<Answer> answers;
 }

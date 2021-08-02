@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -108,9 +109,11 @@ public class AdminController {
 
     @RequestMapping("/subject/update")
     @ResponseBody
-    public Response updateSubject(@Valid SubjectDto subjectDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return Response.badRequest().setErrors(bindingResult.getAllErrors());
+    public Response updateSubject(@Valid SubjectDto subjectDto, Errors errors) {
+        if (errors.hasErrors()) {
+            return Response
+                    .badRequest()
+                    .setErrors(errors);
         }
 
         try {
@@ -124,7 +127,7 @@ public class AdminController {
 
     @GetMapping("/test/create")
     public String testCreationForm(
-            @ModelAttribute("test")TestDto testDto,
+            @ModelAttribute("test") TestDto testDto,
             Model model
     ) {
         model.addAttribute("subjects", subjectRepository.findAll());
@@ -188,14 +191,7 @@ public class AdminController {
 
     @GetMapping("/question/create")
     public String createQuestionForm(@ModelAttribute("question") QuestionDto questionDto) {
-        return "/admin/create_question.html";
-    }
-
-    @PostMapping(value = "/question/create", consumes = "application/json", produces = "application/json")
-    @ResponseBody
-    public Response createQuestion(@RequestBody QuestionDto questionDto) {
-        questionService.updateQuestion(questionDto);
-        return Response.ok();
+        return "/admin/create_question";
     }
 
     @GetMapping(value = "/question/edit")
@@ -208,7 +204,16 @@ public class AdminController {
 
     @PostMapping(value = "/question/edit", consumes = "application/json", produces = "application/json")
     @ResponseBody
-    public Response updateQuestion(@RequestBody QuestionDto questionDto) {
+    public Response updateQuestion(
+            @RequestBody @Valid QuestionDto questionDto,
+            Errors errors
+    ) {
+        if (errors.hasErrors()) {
+            return Response
+                    .badRequest()
+                    .setErrors(errors);
+        }
+
         questionService.updateQuestion(questionDto);
         return Response.ok();
     }

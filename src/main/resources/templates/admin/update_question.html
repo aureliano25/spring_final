@@ -21,6 +21,7 @@
 
     <div class="question-options">Options</div>
     <div class="answers">
+        <div class="answer-errors"></div>
         <fieldset th:each="answer : ${question.answers}"
                   class="form__group flex answer"
                   th:data-id="${answer.id}">
