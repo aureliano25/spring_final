@@ -3,15 +3,12 @@ package com.pavliuk.spring.service;
 import com.pavliuk.spring.dto.QuestionDto;
 import com.pavliuk.spring.exception.QuestionNotFoundException;
 import com.pavliuk.spring.mapper.QuestionMapper;
-import com.pavliuk.spring.model.Answer;
 import com.pavliuk.spring.model.Question;
 import com.pavliuk.spring.repository.AnswerRepository;
 import com.pavliuk.spring.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class QuestionService {
