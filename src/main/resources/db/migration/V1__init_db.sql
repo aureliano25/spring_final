@@ -1,3 +1,5 @@
+drop schema if exists epam2;
+
 create table user
 (
     id         int unsigned auto_increment primary key,
@@ -115,14 +117,14 @@ create table answer
         primary key,
     question_id int unsigned     null,
     text        text             null,
-    is_right    bit default 0 null,
+    is_correct    bit default 0 null,
     constraint answer_ibfk_1
         foreign key (question_id) references question (id)
 );
 
 create index question_id
     on answer (question_id);
-insert into answer (id, question_id, text, is_right)
+insert into answer (id, question_id, text, is_correct)
 values  (1, 2, 'true', true),
         (2, 2, 'false', false),
         (3, 3, 'true', true),

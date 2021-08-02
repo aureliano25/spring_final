@@ -61,14 +61,11 @@ public class MainController {
         Page<TestEntity> testEntityPage = selectedSubjects.isPresent()
                 ? testRepository.findAllBySubjectIdIn(selectedSubjects.get(), pageable)
                 : testRepository.findAll(pageable);
+
         model.addAttribute("testsPage", testEntityPage);
-
-        List<Subject> subjects = subjectRepository.findAll();
-        model.addAttribute("subjects", subjects);
-
+        model.addAttribute("subjects", subjectRepository.findAll());
         model.addAttribute("selectedSubjects", selectedSubjects.orElseGet(ArrayList::new));
 
-        //TODO replace everything to constants
         return "index";
     }
 
