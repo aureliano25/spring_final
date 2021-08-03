@@ -8,10 +8,13 @@ import com.pavliuk.spring.model.*;
 import com.pavliuk.spring.repository.TestRepository;
 import com.pavliuk.spring.repository.UserTestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -69,6 +72,12 @@ public class TestService {
         userTestRepository.save(test);
 
         return test.getScore();
+    }
+
+    public Page<TestEntity> getTestPage(Optional<List<Long>> selectedSubjects, Pageable pageable) {
+        return selectedSubjects.isPresent()
+                ? testRepository.findAllBySubjectIdIn(selectedSubjects.get(), pageable)
+                : testRepository.findAll(pageable);
     }
 
     private double getTestScore(UserTestWrapper test) {

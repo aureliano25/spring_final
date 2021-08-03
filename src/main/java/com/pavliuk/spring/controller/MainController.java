@@ -5,14 +5,11 @@ import com.pavliuk.spring.exception.TestNotFoundException;
 import com.pavliuk.spring.exception.UserAlreadyExistsException;
 import com.pavliuk.spring.model.*;
 import com.pavliuk.spring.repository.SubjectRepository;
-import com.pavliuk.spring.repository.TestRepository;
-import com.pavliuk.spring.repository.UserRepository;
 import com.pavliuk.spring.repository.UserTestRepository;
 import com.pavliuk.spring.service.TestService;
 import com.pavliuk.spring.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,19 +29,12 @@ import java.util.Optional;
 @Controller
 public class MainController {
     private static final int DEFAULT_TEST_PER_PAGE = 6;
-    private static final int DEFAULT_PAGE = 1;
 
     @Autowired
     private UserService userService;
 
     @Autowired
     private TestService testService;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private TestRepository testRepository;
 
     @Autowired
     private UserTestRepository userTestRepository;
@@ -58,11 +48,7 @@ public class MainController {
             @RequestParam(name = "subjects") Optional<List<Long>> selectedSubjects,
             Model model
     ) {
-        Page<TestEntity> testEntityPage = selectedSubjects.isPresent()
-                ? testRepository.findAllBySubjectIdIn(selectedSubjects.get(), pageable)
-                : testRepository.findAll(pageable);
-
-        model.addAttribute("testsPage", testEntityPage);
+        model.addAttribute("testsPage", testService.getTestPage(selectedSubjects, pageable));
         model.addAttribute("subjects", subjectRepository.findAll());
         model.addAttribute("selectedSubjects", selectedSubjects.orElseGet(ArrayList::new));
 
@@ -107,7 +93,7 @@ public class MainController {
         }
         model.addAttribute("tests", userTestRepository.findAllByUserId(currentUserId));
 
-        return "user_statistic.html";
+        return "user_statistic";
     }
 
     @RequestMapping("/test/start/{testId}")
@@ -127,7 +113,7 @@ public class MainController {
         UserTestWrapper currentTest = testService.getCurrentTestFromSession(session);
         model.addAttribute("test", currentTest);
 
-        return "test.html";
+        return "test";
     }
 
     @RequestMapping("/test/next")
