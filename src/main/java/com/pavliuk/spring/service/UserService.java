@@ -42,15 +42,11 @@ public class UserService implements UserDetailsService {
     }
 
     public boolean blockUser(Long userId) {
-        int updatedRows = userRepository.blockUserById(userId);
-
-        return updatedRows != 0;
+        return userRepository.blockUserById(userId) != 0;
     }
 
     public boolean unblockUser(Long userId) {
-        int updatedRows = userRepository.unblockUserById(userId);
-
-        return updatedRows != 0;
+        return userRepository.unblockUserById(userId) != 0;
     }
 
     public void deleteUser(Long userId) {
@@ -68,7 +64,7 @@ public class UserService implements UserDetailsService {
 
         try {
             return userRepository.save(user);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             throw new UserAlreadyExistsException("User with login " + user.getLogin() + " already exists");
         }
     }
