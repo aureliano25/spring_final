@@ -1,5 +1,3 @@
-drop schema if exists epam2;
-
 create table user
 (
     id         int unsigned auto_increment primary key,
@@ -87,7 +85,8 @@ values  (1, 5, 'NORMAL', 7, '.NET Core 3.0 Demo'),
         (8, 6, 'EASY', 150, 'TypeScript PreScreening'),
         (9, 5, 'EASY', 150, 'Net Winter Program 2021 FrontEnd'),
         (10, 4, 'EASY', 150, 'Pre selection '),
-        (11, 4, 'EASY', 150, 'Pilot FE group');
+        (11, 4, 'EASY', 150, 'Pilot FE group'),
+        (12, 5, 'EASY', 10, 'sdfsd');
 
 
 create table question
@@ -100,7 +99,7 @@ create table question
     constraint question_ibfk_1
         foreign key (test_id) references test (id)
 );
-insert into epam2.question (id, test_id, text, is_active)
+insert into question (id, test_id, text, is_active)
 values  (6, 4, 'What is a correct syntax to output "Hello World" in Java?', true),
         (7, 4, 'Java is short for "JavaScript".', true),
         (8, 4, 'How do you insert COMMENTS in Java code?', true),
@@ -163,7 +162,7 @@ create table answer
 
 create index question_id
     on answer (question_id);
-insert into epam2.answer (id, question_id, text, is_correct)
+insert into answer (id, question_id, text, is_correct)
 values  (15, 6, 'System.out.println("Hello world");', true),
         (16, 6, 'echo("Hello World");', false),
         (17, 6, 'Console.WriteLine("Hello World");', false),

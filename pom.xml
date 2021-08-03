@@ -16,7 +16,7 @@
                 <configuration>
                     <url>jdbc:h2:./data/demo</url>
                     <user>sa</user>
-                    <password></password>
+                    <password>password</password>
                 </configuration>
             </plugin>
         </plugins>
