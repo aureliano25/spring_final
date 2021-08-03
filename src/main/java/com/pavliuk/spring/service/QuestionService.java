@@ -23,6 +23,11 @@ public class QuestionService {
     public Question updateQuestion(QuestionDto questionDto) {
         Question question = QuestionMapper.createQuestionFromDto(questionDto);
         repository.save(question);
+
+        if (questionDto.getAnswersToDelete().size() != 0) {
+            answerRepository.deleteAllById(questionDto.getAnswersToDelete());
+        }
+
         question.getAnswers().forEach(a -> a.setQuestion(question));
         answerRepository.saveAll(question.getAnswers());
         return question;

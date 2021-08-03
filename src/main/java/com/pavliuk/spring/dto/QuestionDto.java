@@ -14,4 +14,6 @@ public class QuestionDto {
     @Size(min = 2, message = "{javax.validation.constraints.answer.size}")
     @ValidAnswer
     private List<AnswerDto> answers;
+
+    private List<Long> answersToDelete;
 }

@@ -31,7 +31,6 @@ $(document).on("click", ".delete-btn", function () {
         itemsToRemove.push(answerId);
     }
     $(this).parent().remove();
-    // removeAnswer($(this).attr("data-id"));
 });
 
 function openQuestionForm(questionId) {
@@ -126,6 +125,7 @@ function getQuestionInfo() {
     question.questionText = $("#question-text").val();
     question.testId = $("#quiz_id").val();
     question.questionId = $("#question-id").val();
+    question.answersToDelete = itemsToRemove;
     question.answers = [];
     $('.answer').each(function () {
         let text = $(this).find("input[name='answer_text']").val();
