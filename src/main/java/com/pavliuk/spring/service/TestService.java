@@ -20,7 +20,7 @@ import java.util.stream.Stream;
 
 @Service
 public class TestService {
-    private static final String USER_TEST_SESSION_KEY = "userTest";
+    public static final String USER_TEST_SESSION_KEY = "userTest";
 
     @Autowired
     private TestRepository testRepository;
